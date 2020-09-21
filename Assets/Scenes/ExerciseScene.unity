@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50802061c997ef47bd1b42bdc1a087a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftHand: {fileID: 0}
   workspace: {fileID: 988146759}
   initialPositionSphere: {fileID: 1283919761342056, guid: 54c7a113e80c7034c9f7a2fe2e2d2334,
     type: 3}

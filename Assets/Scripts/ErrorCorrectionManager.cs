@@ -124,10 +124,18 @@ namespace ErrorCorrection
             Debug.Log("VYPOCITANE: " + Mathf.FloorToInt((exerciseInfo.maxHandDistance + 0.1f) * 1000));
             dimensions = new Vector2(400, Mathf.FloorToInt((exerciseInfo.maxHandDistance + 0.1f) * 1000));
 
+            float x = Mathf.Abs(position.x - sceneControl.tableTop.transform.position.x + dimensions.x / 2000f);
+            float y = Mathf.Abs(position.z - sceneControl.tableTop.transform.position.z + dimensions.y / 2000f);
             //float x = Mathf.Abs(position.x);
             //float y = Mathf.Abs(position.z);
-            float x = Mathf.Abs(position.x - dimensions.x / 2);
-            float y = Mathf.Abs(position.z - dimensions.y / 2);
+            //float x = Mathf.Abs(position.x - dimensions.x / 2);
+            //float y = Mathf.Abs(position.z - dimensions.y / 2);
+            Debug.Log("position x:" + position.x);
+            Debug.Log("position y:" + position.z);
+            Debug.Log("scene position x:" + sceneControl.tableTop.transform.position.x);
+            Debug.Log("scene position y:" + sceneControl.tableTop.transform.position.z);
+            Debug.Log("dimension x:" + dimensions.x / 200f);
+            Debug.Log("dimension y:" + dimensions.y / 200f);
             xImage.Add((int)(x * 1000));
             yImage.Add((int)(y * 1000f));
 
@@ -178,8 +186,11 @@ namespace ErrorCorrection
             //float y = Mathf.Abs(currentHandPosition.z - sceneControl.workspace.transform.position.z + dimensions.y / 2);
             //float x = Mathf.Abs(currentHandPosition.x + dimensions.x / 2);
             //float y = Mathf.Abs(currentHandPosition.z + dimensions.y / 2);
-            float x = Mathf.Abs(currentHandPosition.x - dimensions.x / 2);
-            float y = Mathf.Abs(currentHandPosition.z + dimensions.y / 2);
+            //float x = Mathf.Abs(currentHandPosition.x - dimensions.x / 2);
+            //float y = Mathf.Abs(currentHandPosition.z + dimensions.y / 2);
+
+            float x = Mathf.Abs(center.x - sceneControl.tableTop.transform.position.x + dimensions.x / 2000f);
+            float y = Mathf.Abs(center.z - sceneControl.tableTop.transform.position.z + dimensions.y / 2000f);
             xImage.Add((int)(x * 1000));
             yImage.Add((int)(y * 1000));
 
@@ -250,10 +261,18 @@ namespace ErrorCorrection
             dataTemp2[6] = correctedDistance.ToString();
             data.Add(dataTemp2);
 
-            float x = Mathf.Abs(handPosition.x - dimensions.x / 2);
-            float y = Mathf.Abs(handPosition.z - dimensions.y / 2);
+            float x = Mathf.Abs(handPosition.x - sceneControl.tableTop.transform.position.x + dimensions.x / 2000f);
+            float y = Mathf.Abs(handPosition.z - sceneControl.tableTop.transform.position.z + dimensions.y / 2000f);
+            //float x = Mathf.Abs(handPosition.x - dimensions.x / 2);
+            //float y = Mathf.Abs(handPosition.z - dimensions.y / 2);
             //float x = Mathf.Abs(handPosition.x + dimensions.x / 2);
             //float y = Mathf.Abs(handPosition.z + dimensions.y / 2);
+            Debug.Log("position x:" + handPosition.x);
+            Debug.Log("position y:" + handPosition.z);
+            Debug.Log("scene position x:" + sceneControl.tableTop.transform.position.x);
+            Debug.Log("scene position y:" + sceneControl.tableTop.transform.position.z);
+            Debug.Log("dimension x:" + dimensions.x / 200f);
+            Debug.Log("dimension y:" + dimensions.y / 200f);
             xImage.Add((int)(x * 1000));
             yImage.Add((int)(y * 1000));
             texture.SetPixel(xImage[xImage.Count - 1], yImage[yImage.Count - 1], Color.black);

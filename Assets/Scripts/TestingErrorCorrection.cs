@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ErrorCorrection;
+using UnityEngine.UI;
 
 public class TestingErrorCorrection : MonoBehaviour
 {
+    [SerializeField] private ExerciseInfo exerciseInfo;
+    [SerializeField] private RawImage image;
+
     // Start is called before the first frame update
     void Start()
     {
-        var data = CSVManager.Load("C:/Users/dortb/Desktop/1_right.csv");
+        exerciseInfo.maxHandDistance = 0.35f;
+        var data = CSVManager.Load("C:/Users/dortb/Desktop/1_left.csv");
 
         List<Vector3> handPosition = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0.1f, 0f)};
 
@@ -29,7 +34,7 @@ public class TestingErrorCorrection : MonoBehaviour
 
             if (i == 1)
             {
-                correction.UpdateMeasurement(cameraPosition, position, "L", null);
+                correction.UpdateMeasurement(cameraPosition, position, "L", exerciseInfo);
             }
             else
             {
@@ -39,5 +44,7 @@ public class TestingErrorCorrection : MonoBehaviour
         correction.StopDataCollection();
 
         Debug.Log("koniec");
+
+        image.texture = exerciseInfo.texture;
     }
 }

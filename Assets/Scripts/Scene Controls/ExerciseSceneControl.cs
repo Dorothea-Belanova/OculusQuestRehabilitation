@@ -25,7 +25,7 @@ public class ExerciseSceneControl : MonoBehaviour {
     [SerializeField] GameObject spherePrefab;
     [SerializeField] GameObject cylinderPrefab;
     [SerializeField] GameObject table;
-    [SerializeField] GameObject tableTop;
+    [SerializeField] public GameObject tableTop;
     [SerializeField] GameObject alarm;
 
     [HideInInspector] public InitialPositionSphere leftHandInteractiveSphere;

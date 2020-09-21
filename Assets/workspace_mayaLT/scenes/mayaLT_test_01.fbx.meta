@@ -1,0 +1,202 @@
+fileFormatVersion: 2
+guid: ce5f657e0216cb04db3fa1518bd144cc
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: botan
+    100002: camera1
+    100004: clock
+    100006: directionalLight1
+    100008: directionalLight2
+    100010: group1
+    100012: group2
+    100014: group3
+    100016: group4
+    100018: group5
+    100020: left
+    100022: //RootNode
+    100024: mojiban
+    100026: pCylinder2
+    100028: pCylinder3
+    100030: pCylinder4
+    100032: pointLight1
+    100034: pPlane1
+    100036: pPlane2
+    100038: pSphere1
+    100040: pSphere1 1
+    100042: pSphere2
+    100044: pSphere2 1
+    100046: pSphere4
+    100048: pSphere5
+    100050: tanshin
+    100052: tyoushin
+    400000: botan
+    400002: camera1
+    400004: clock
+    400006: directionalLight1
+    400008: directionalLight2
+    400010: group1
+    400012: group2
+    400014: group3
+    400016: group4
+    400018: group5
+    400020: left
+    400022: //RootNode
+    400024: mojiban
+    400026: pCylinder2
+    400028: pCylinder3
+    400030: pCylinder4
+    400032: pointLight1
+    400034: pPlane1
+    400036: pPlane2
+    400038: pSphere1
+    400040: pSphere1 1
+    400042: pSphere2
+    400044: pSphere2 1
+    400046: pSphere4
+    400048: pSphere5
+    400050: tanshin
+    400052: tyoushin
+    2000000: camera1
+    2000002: left
+    2100000: phong1
+    2100002: phong2
+    2100004: phong5
+    2100006: phong4
+    2100008: phong3
+    2100010: phong6
+    2300000: botan
+    2300002: clock
+    2300004: mojiban
+    2300006: pCylinder2
+    2300008: pCylinder3
+    2300010: pCylinder4
+    2300012: pPlane1
+    2300014: pPlane2
+    2300016: pSphere1
+    2300018: pSphere1 1
+    2300020: pSphere2
+    2300022: pSphere2 1
+    2300024: pSphere4
+    2300026: pSphere5
+    2300028: tanshin
+    2300030: tyoushin
+    3300000: botan
+    3300002: clock
+    3300004: mojiban
+    3300006: pCylinder2
+    3300008: pCylinder3
+    3300010: pCylinder4
+    3300012: pPlane1
+    3300014: pPlane2
+    3300016: pSphere1
+    3300018: pSphere1 1
+    3300020: pSphere2
+    3300022: pSphere2 1
+    3300024: pSphere4
+    3300026: pSphere5
+    3300028: tanshin
+    3300030: tyoushin
+    4300000: pCylinder2
+    4300002: pSphere2
+    4300004: pSphere1
+    4300006: pSphere2
+    4300008: pSphere1
+    4300010: pSphere4
+    4300012: pSphere5
+    4300014: clock
+    4300016: mojiban
+    4300018: pCylinder3
+    4300020: tanshin
+    4300022: tyoushin
+    4300024: botan
+    4300026: pCylinder4
+    4300028: pPlane1
+    4300030: pPlane2
+    7400000: Take 001
+    9500000: //RootNode
+    10800000: directionalLight1
+    10800002: directionalLight2
+    10800004: pointLight1
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

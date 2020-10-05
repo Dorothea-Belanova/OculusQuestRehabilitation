@@ -255,8 +255,12 @@ public class ExerciseSceneControl : MonoBehaviour {
         if (exerciseInfo.fixedExerciseLength && score >= exerciseInfo.numberOfPoints)
         {
             errorCorrection.StopDataCollection();
-            StopCoroutine(gameCoroutine);
-            gameCoroutine = null;
+            if(gameCoroutine != null)
+            {
+                StopCoroutine(gameCoroutine);
+                gameCoroutine = null;
+            }
+
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             //errorCorrection.StopDataCollection(markerFrames);
             //StartCoroutine(WaitAndGoToNextScene());
@@ -571,9 +575,16 @@ public class ExerciseSceneControl : MonoBehaviour {
     public void QuitGamePresssed()
     {
         Debug.Log("QUIT PRESSED");
-        StopCoroutine(gameCoroutine);
-        gameCoroutine = null;
-        errorCorrection.StopDataCollection();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if(gameCoroutine != null)
+        {
+            StopCoroutine(gameCoroutine);
+            gameCoroutine = null;
+            errorCorrection.StopDataCollection();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 }

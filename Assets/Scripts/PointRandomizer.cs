@@ -34,11 +34,14 @@ public static class PointRandomizer {
         Vector3 rightCorner = new Vector3(center.x + halfWidth, center.y, center.z);
         Vector3 leftCorner = new Vector3(center.x - halfWidth, center.y, center.z);
 
-        float minAngle = GetMinAngleForDistance(distance, initialPosition, Vector3.Distance(rightCorner, initialPosition) - 0.05f);
-        float maxAngle = GetMaxAngleForDistance(distance, initialPosition, Vector3.Distance(leftCorner, initialPosition) - 0.05f);
+        float minAngle = GetMinAngleForDistance(distance, initialPosition, Vector3.Distance(rightCorner, initialPosition) - 0.1f);
+        float maxAngle = GetMaxAngleForDistance(distance, initialPosition, Vector3.Distance(leftCorner, initialPosition) - 0.1f);
+
+        var minAngleSubstraction = (initialPosition.x < center.x) ? 0f : 20f;
+        var maxAngleSubstraction = (initialPosition.x < center.x) ? 20f : 0f;
 
         Vector3 point;
-        float angle = Random.Range(minAngle, maxAngle);
+        float angle = Random.Range(minAngle + minAngleSubstraction, maxAngle - maxAngleSubstraction);
         float radians = (angle * Mathf.PI) / 180.0f;
         point.x = initialPosition.x + Mathf.Cos(radians) * distance;
         point.z = initialPosition.z + Mathf.Sin(radians) * distance;

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Keyboard
   - SceneControl
+  - LocalizationManager
   layers:
   - Default
   - TransparentFX

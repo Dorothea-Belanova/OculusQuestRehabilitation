@@ -93,6 +93,7 @@ namespace ErrorCorrection
         private void StartDataCollection(Vector3 position, string hand, ExerciseInfo exerciseInfo)
         {
             this.exerciseInfo = exerciseInfo;
+            exerciseInfo.startingTime = Dater.GetTime();
 
             data = new List<string[]>();
             string[] dataTemp = new string[9];

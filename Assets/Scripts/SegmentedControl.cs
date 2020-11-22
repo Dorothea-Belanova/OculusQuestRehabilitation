@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 //[AddComponentMenu("UI/Segmented Control", 32)]
 public class SegmentedControl: MonoBehaviour {
@@ -13,10 +14,12 @@ public class SegmentedControl: MonoBehaviour {
     [SerializeField] public Color normalTextColor = Color.black;
     [SerializeField] public Color selectedTextColor = Color.green;
     [SerializeField] public Sprite sprite;
-    [SerializeField] public Font font;
+    [SerializeField] public TMP_FontAsset fontAsset;
     [SerializeField] public int fontSize = 30;
-    [SerializeField] public TextAnchor alignment = TextAnchor.MiddleCenter;
+    [SerializeField] public TextAlignmentOptions alignment = TextAlignmentOptions.Center;
     [SerializeField] public string[] segments = new string[] { "Segment 1", "Segment 2", "Segment 3" };
+    [SerializeField] public bool supportsLocalization = false;
+    [SerializeField] public string[] segmentsTranslationKeywords = new string[] { "Keyword 1", "Keyword 2", "Keyword 3" };
 
     public event Action<SelectedHand> OnValueChanged;
 
@@ -47,26 +50,35 @@ public class SegmentedControl: MonoBehaviour {
             text.name = "Text";
             text.transform.parent = button.transform;
             text.AddComponent<RectTransform>();
-            text.GetComponent<RectTransform>().SetZero();
             text.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0);
             text.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
 
             // next two are needed if world canvas
             text.GetComponent<RectTransform>().localPosition = Vector3.zero;
-            text.GetComponent<RectTransform>().SetZero();
             text.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+            //SetAndStretchToParentSize(text.GetComponent<RectTransform>(), button.GetComponent<RectTransform>());
+            //text.GetComponent<RectTransform>().SetZero();
 
-            text.AddComponent<Text>();
-            text.GetComponent<Text>().text = segments[i].ToString();
-            text.GetComponent<Text>().font = font;
-            text.GetComponent<Text>().fontSize = fontSize;
-            text.GetComponent<Text>().color = normalTextColor;
-            text.GetComponent<Text>().alignment = alignment;
-            //button.GetComponent<Button>()
+            text.AddComponent<TextMeshProUGUI>();
+            text.GetComponent<TextMeshProUGUI>().text = segments[i];
+            text.GetComponent<TextMeshProUGUI>().font = fontAsset;
+            text.GetComponent<TextMeshProUGUI>().fontSize = fontSize;
+            text.GetComponent<TextMeshProUGUI>().color = normalTextColor;
+            text.GetComponent<TextMeshProUGUI>().alignment = alignment;
+
+            // it has to be here because TMPro text stretches the dimensions
+            text.GetComponent<RectTransform>().SetZero();
+
+            if (supportsLocalization)
+            {
+                text.AddComponent<LocalizedText>();
+                text.GetComponent<LocalizedText>().key = segmentsTranslationKeywords[i];
+            }
         }
     }
 
     private void OnPressed(GameObject gameObject) {
+        Debug.Log("PRESSED!");
         int index = gameObject.GetComponent<RectTransform>().GetSiblingIndex();
 
         Debug.Log("selected: " + gameObject);
@@ -81,7 +93,7 @@ public class SegmentedControl: MonoBehaviour {
 
     private void ChangeColors(int index, Color buttonColor, Color textColor) {
         this.transform.GetChild(index).GetComponent<Image>().color = buttonColor;
-        this.transform.GetChild(index).GetChild(0).GetComponent<Text>().color = textColor;
+        this.transform.GetChild(index).GetChild(0).GetComponent<TextMeshProUGUI>().color = textColor;
     }
 
     public int GetSelectedIndex() {

@@ -23,7 +23,7 @@ public class InitialSceneControl: MonoBehaviour {
     [SerializeField] public InputField exerciseLengthInputField;
     [SerializeField] public Slider numberOfPointsSlider;
     [SerializeField] public InputField numberOfPointsInputField;
-    [SerializeField] public Text numberOfPointsErrorText;
+    [SerializeField] public TMPro.TextMeshProUGUI numberOfPointsErrorText;
     [SerializeField] public Button continueButton;
 
     [SerializeField] public GameObject keyboardCanvas;

@@ -101,7 +101,7 @@ public class ExerciseSceneControl : MonoBehaviour {
         isFixedExerciseLength = exerciseInfo.fixedExerciseLength;
         if (isFixedExerciseLength)
         {
-            var min = 0.2f;
+            var min = 0.25f;
             var max = exerciseInfo.maxHandDistance;
             var length = exerciseInfo.exerciseLength;
             var points = exerciseInfo.numberOfPoints;
@@ -182,7 +182,7 @@ public class ExerciseSceneControl : MonoBehaviour {
                 //float radius = cylinder.transform.lossyScale.x;
                 //float x = Random.Range(-tableWidth / 2 + radius, tableWidth / 2 - radius);
                 //float z = Random.Range(radius, applicationControl.rehabilitationInfo.maxHandDistance - minHandDistance - radius);
-                position = PointRandomizer.GenerateRandomPointPosition(Random.Range(0.2f, exerciseInfo.maxHandDistance - 0.05f), GetActiveHandPosition(), tableTop);
+                position = PointRandomizer.GenerateRandomPointPosition(Random.Range(0.25f, exerciseInfo.maxHandDistance - 0.05f), GetActiveHandPosition(), tableTop);
                 //position.y -= 0.02f;
                 //position = new Vector3(table.transform.position.x + x, leftHandInitialPos.y - 0.02f, leftHandInitialPos.z + minHandDistance + z);
             }

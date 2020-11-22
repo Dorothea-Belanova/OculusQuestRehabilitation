@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 [ExecuteAlways]
 public class Key : MonoBehaviour {
@@ -9,19 +10,29 @@ public class Key : MonoBehaviour {
     private Keyboard keyboard;
 
     public void Awake() {
-        this.GetComponentInChildren<Text>().text = this.name.ToLower();
+        keyboard = GameObject.FindGameObjectWithTag("Keyboard").GetComponent<Keyboard>();
+
+        if (this.GetComponentsInChildren<Text>().Length > 0) {
+            this.GetComponentInChildren<Text>().text = this.name.ToLower();
+
+            if(keyType == KeyType.Letter && this.GetComponentInChildren<Text>().text.Length < 2)
+                keyboard.OnCapslockToggle += ChangeLetter;
+        }
+        else
+        {
+            this.GetComponentInChildren<TextMeshProUGUI>().text = this.name.ToLower();
+        }
+
         this.GetComponent<Button>().onClick.AddListener(delegate {
             Clicked();
         });
-
-        keyboard = GameObject.FindGameObjectWithTag("Keyboard").GetComponent<Keyboard>();
-        if(keyType == KeyType.Letter && this.GetComponentInChildren<Text>().text.Length < 2) {
-            keyboard.OnCapslockToggle += ChangeLetter;
-        }
     }
 
     public void Clicked() {
-        switch(keyType) {
+        switch (keyType) {
+            case KeyType.Space:
+                keyboard.AddCharacter(" ");
+                break;
             case KeyType.Letter:
                 keyboard.AddCharacter(this.GetComponentInChildren<Text>().text);
                 break;
@@ -53,5 +64,6 @@ public enum KeyType {
     Uppercase,
     Backspace,
     Clear,
+    Space,
     Enter
 }

@@ -47,16 +47,19 @@ public class InitialSceneControl: MonoBehaviour {
         //FilterTesting.Test();
     }
 
-    /*private void Update() {
-        if(patientIDInputField.isFocused && !keyboardOn) {
+    private void Update() {
+        /*if(patientIDInputField.isFocused && !keyboardOn) {
             keyboardOn = true;
             Debug.Log("keyboard is on");
             //keyboardCanvas.GetComponent<Image>().CrossFadeAlpha(0.1f, 2.0f, false);
             keyboardCanvas.SetActive(true);
             //StartCoroutine(FadeEffect.FadeCanvas(keyboardCanvas, 0f, 1f, 2f));
             //keyboardCanvas.alpha = 1f;
-        }
-    }*/
+        }*/
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            ContinueButtonClicked();
+    }
 
     public void PatientIDInputClicked()
     {

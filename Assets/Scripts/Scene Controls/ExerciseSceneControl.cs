@@ -20,8 +20,8 @@ public class ExerciseSceneControl : MonoBehaviour {
     List<Vector3> leftPositions;
     List<Vector3> rightPositions;
     [SerializeField] GameObject initialPositionSphere;
-    [SerializeField] TextMeshPro scoreText;
-    [SerializeField] TextMeshPro count;
+    [SerializeField] TextMeshPro scoreValue;
+    [SerializeField] TextMeshPro distanceValue;
     [SerializeField] GameObject spherePrefab;
     [SerializeField] GameObject cylinderPrefab;
     [SerializeField] GameObject table;
@@ -157,7 +157,7 @@ public class ExerciseSceneControl : MonoBehaviour {
 
     private void SetCorrectedDistance(float distance)
     {
-        count.text = "Distance: " + Mathf.Round(distance * 100f) / 100f + " m";
+        distanceValue.text = Mathf.Round(distance * 100f) / 100f + " m";
     }
 
     private void CreateCylinder()
@@ -271,7 +271,7 @@ public class ExerciseSceneControl : MonoBehaviour {
 
     private void SetScore()
     {
-        scoreText.text = "Score: " + score.ToString();
+        scoreValue.text = score.ToString();
     }
 
     private IEnumerator Game()
@@ -494,7 +494,7 @@ public class ExerciseSceneControl : MonoBehaviour {
         float x = (leftHandInitialPos.x + rightHandInitialPos.x) / 2f;
         float y = (leftHandInitialPos.y + rightHandInitialPos.y) / 2f - CORNER_OFFSET / 2f;
 
-        count.text = x.ToString() + "/" + y.ToString() + "/" + z.ToString();
+        //distanceValue.text = x.ToString() + "/" + y.ToString() + "/" + z.ToString();
 
         workspace.transform.position = new Vector3(x, y, z);
     }

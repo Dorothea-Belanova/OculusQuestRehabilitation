@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class Keyboard: MonoBehaviour {
     public event Action OnCapslockToggle = delegate { };
 
-    [SerializeField] public InputField inputField;
+    [SerializeField] public TMP_InputField inputField;
     public bool isCapsOn = false;
     InitialSceneControl sceneControl;
 

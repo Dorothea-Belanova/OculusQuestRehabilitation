@@ -60,6 +60,46 @@ public static class PointRandomizer {
         Debug.Log("min: " + min);
         Debug.Log("min: " + max);*/
 
+        for (int i = 0; i < points - 1; ++i)
+        {
+            if (points == 2)
+            {
+                (cMin, cMax) = RecalculateLimits(min, max, length, sum, points, i);
+            }
+
+            var random = Random.Range(cMin, cMax);
+            distances[i] = random;
+            sum += random;
+
+            if (points != 2)
+            {
+                (cMin, cMax) = RecalculateLimits(min, max, length, sum, points, i);
+            }
+        }
+
+        float lastDistance = length - sum;
+        distances[points - 1] = lastDistance;
+
+        if (lastDistance > max || lastDistance < min)
+        {
+            Debug.Log("PROBLEM: ");
+            for (int i = 0; i < points; ++i)
+            {
+                Debug.Log(i + ": " + distances[i]);
+            }
+            return null;
+        }
+        else
+        {
+            return distances;
+        }
+
+        /*float sum = 0f;
+        float cMin = min;
+        float cMax = max;
+
+        float[] distances = new float[points];
+
         for(int i = 0; i < points - 1; ++i) {
             if(points == 2) {
                 (cMin, cMax) = RecalculateLimits(min, max, length, sum, points, i);
@@ -86,7 +126,7 @@ public static class PointRandomizer {
         }
         else {
             return distances;
-        }
+        }*/
     }
 
     private static (float cMin, float cMax) RecalculateLimits(float min, float max, float length, float sum, float points, float i) {

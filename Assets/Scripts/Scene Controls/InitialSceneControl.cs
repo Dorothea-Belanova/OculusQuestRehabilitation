@@ -34,8 +34,8 @@ public class InitialSceneControl: MonoBehaviour {
     static Limits VERTICAL_GAME_HEIGHT_LIMITS = new Limits(15f, 40f); // with step 1 cm
     static Limits MAX_HAND_DISTANCE_LIMITS = new Limits(35f, 85f); // with step 1 cm
     static Limits EXERCISE_LENGTH_LIMITS = new Limits(12f, 100f); // with step 10 cm
-    static float MIN_DISTANCE = 20f;
-    static float CALCULATION_MARGIN = 7f;
+    static float MIN_DISTANCE = 25f;
+    static float CALCULATION_MARGIN = 8f;
     static int EXERCISE_LENGTH_STEP = 10;
 
     private bool keyboardOn = false;
@@ -171,12 +171,13 @@ public class InitialSceneControl: MonoBehaviour {
     private void SetNumberOfPointsSlider() {
         /*Debug.Log("VYPOCET:");
         Debug.Log("hand max: " + maxHandDistanceSlider.value);
-        Debug.Log("margin: " + AVG_MARGIN);
+        Debug.Log("margin: " + CALCULATION_MARGIN);
         Debug.Log("length: " + exerciseLengthSlider.value * 10);
-        Debug.Log("min: " + (exerciseLengthSlider.value * 10) / (maxHandDistanceSlider.value - AVG_MARGIN));
-        Debug.Log("max: " + (exerciseLengthSlider.value * 10) / (MIN_DISTANCE + AVG_MARGIN));*/
-        int min = (int)Math.Ceiling((exerciseLengthSlider.value * EXERCISE_LENGTH_STEP) / (maxHandDistanceSlider.value - CALCULATION_MARGIN));
-        int max = (int)Math.Floor((exerciseLengthSlider.value * EXERCISE_LENGTH_STEP) / (MIN_DISTANCE + CALCULATION_MARGIN));
+        Debug.Log("min: " + (exerciseLengthSlider.value * 10) / (maxHandDistanceSlider.value - CALCULATION_MARGIN));
+        Debug.Log("max: " + (exerciseLengthSlider.value * 10) / (MIN_DISTANCE + CALCULATION_MARGIN));*/
+        int min = (int)Math.Ceiling((exerciseLengthSlider.value * EXERCISE_LENGTH_STEP) / (maxHandDistanceSlider.value));
+        int max = (int)Math.Floor((exerciseLengthSlider.value * EXERCISE_LENGTH_STEP) / MIN_DISTANCE);
+
 
         if(min > max) {
             max = min;

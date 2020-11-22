@@ -112,11 +112,11 @@ public class ExerciseSceneControl : MonoBehaviour {
                 points /= 2;
             }
 
-            distances = PointRandomizer.GenerateDistances(min, max, length, points);
-            if (distances[points - 1] < min || distances[points - 1] > max)
+            do
             {
+                Debug.Log("PRUSER");
                 distances = PointRandomizer.GenerateDistances(min, max, length, points);
-            }
+            } while (distances == null);
 
             if (exerciseInfo.selectedHand == SelectedHand.BothHands)
             {
@@ -127,7 +127,7 @@ public class ExerciseSceneControl : MonoBehaviour {
                     newDistances[i * 2] = distances[i];
                     newDistances[i * 2 + 1] = distances[i];
                     Debug.Log("managed");
-                }
+                } 
                 distances = newDistances;
             }
         }

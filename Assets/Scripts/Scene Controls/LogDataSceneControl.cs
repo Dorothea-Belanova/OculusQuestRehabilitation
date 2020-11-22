@@ -2,6 +2,8 @@
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.IO;
 
 public class LogDataSceneControl : MonoBehaviour
 {
@@ -15,6 +17,9 @@ public class LogDataSceneControl : MonoBehaviour
     void Start()
     {
         SetUI();
+        //TryCSV();
+        var data = CSVManager.Load("test");
+        Debug.Log(data[0][7] + ": " + data[1][7]);
     }
 
     private void SetUI()
@@ -26,6 +31,32 @@ public class LogDataSceneControl : MonoBehaviour
 
         //image.GetComponent<RectTransform>().sizeDelta = new Vector2(exerciseInfo.texture.width, exerciseInfo.texture.height);
         image.texture = exerciseInfo.texture;
+    }
+
+    private void TryCSV()
+    {
+        List<string[]> data = new List<string[]>();
+
+        string[] paths = BetterStreamingAssets.GetFiles("Data", "test.csv", SearchOption.AllDirectories);
+        if (paths.Length > 0)
+            Debug.Log("NASLO");
+
+        string[] reader = BetterStreamingAssets.ReadAllLines(paths[0]);
+
+
+            foreach(var line in reader)
+            {
+                var values = line.Split(',');
+
+                string[] dataTemp = new string[values.Length];
+                for (int i = 0; i < values.Length; ++i)
+                {
+                    dataTemp[i] = values[i];
+                }
+                data.Add(dataTemp);
+            }
+
+        Debug.Log("START TIME: " + data[0][7]);
     }
 
     public void BackButtonPressed()

@@ -8,9 +8,10 @@ using System.Globalization;
 public class CSVManager
 {
 
-    public static List<string[]> Load(string path)
+    public static List<string[]> Load(string name)
     {
         List<string[]> data = new List<string[]>();
+        var path = Application.persistentDataPath + "/PatientsData/" + name + ".csv";
 
         using (var reader = new StreamReader(path))
         {
@@ -48,36 +49,21 @@ public class CSVManager
         for (int index = 0; index < length; index++)
             sb.AppendLine(string.Join(delimiter, output[index]));
 
-        string filePath = Application.streamingAssetsPath + "/Parsed Data/" + name;
+        string dirPath = Application.persistentDataPath + "/PatientsData";
+        string filePath = Application.persistentDataPath + "/PatientsData/" + name + ".csv";
+        Debug.Log("FILEPATH:" + filePath);
 
-        StreamWriter outStream = System.IO.File.CreateText(filePath);
-        outStream.WriteLine(sb);
-        outStream.Close();
-    }
-
-    public void Save(List<string[]> data)
-    {
-        string[][] output = new string[data.Count][];
-
-        for (int i = 0; i < output.Length; ++i)
+        if (Directory.Exists(dirPath) == false)
         {
-            output[i] = data[i];
+            Directory.CreateDirectory(dirPath);
         }
 
-        int length = output.GetLength(0);
-        string delimiter = ",";
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int index = 0; index < length; index++)
-            sb.AppendLine(string.Join(delimiter, output[index]));
-
-        string filePath = getPath();
-
         StreamWriter outStream = System.IO.File.CreateText(filePath);
         outStream.WriteLine(sb);
         outStream.Close();
+        Debug.Log("koniec ukladania");
     }
+
 
     // Following method is used to retrive the relative path as device platform
     private string getPath()

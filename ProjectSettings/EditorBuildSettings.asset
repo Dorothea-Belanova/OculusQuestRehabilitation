@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/InitialScene.unity
+    path: Assets/Reif/Scenes/InitialScene.unity
     guid: 6403fb8e5b3eb0a4180d943ce67d30d9
   - enabled: 1
-    path: Assets/Scenes/ExerciseScene.unity
+    path: Assets/Reif/Scenes/ExerciseScene.unity
     guid: cf2a32d383d71d544986882dd3b00a6e
   - enabled: 1
-    path: Assets/Scenes/LogDataScene.unity
+    path: Assets/Reif/Scenes/LogDataScene.unity
     guid: 756df240a5220ad489550b09ba34edee
   - enabled: 0
     path: Assets/Oculus/VR/Scenes/UI.unity

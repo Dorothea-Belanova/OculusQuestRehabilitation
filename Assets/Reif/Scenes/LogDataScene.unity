@@ -1130,6 +1130,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 524617685, guid: b290042c373af984599ad0d8137a4fe3, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 1994603806, guid: b290042c373af984599ad0d8137a4fe3, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 1994603808, guid: b290042c373af984599ad0d8137a4fe3, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 1994603810, guid: b290042c373af984599ad0d8137a4fe3, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 1994603812, guid: b290042c373af984599ad0d8137a4fe3, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
     - target: {fileID: 6697816922288372138, guid: b290042c373af984599ad0d8137a4fe3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

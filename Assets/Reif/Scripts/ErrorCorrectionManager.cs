@@ -213,7 +213,8 @@ namespace ErrorCorrection
             //byte[] bytes = texture.EncodeToPNG();
             //Object.Destroy(texture);
 
-            CSVManager.Uloz(data, "test");
+            string fileName = exerciseInfo.patientID + "_" + Dater.GetDate() + "_" + exerciseInfo.startingTime;
+            CSVManager.Save(data, fileName);
             // saving
             // FINISH
             //System.IO.File.WriteAllBytes(Application.streamingAssetsPath + "/Patients Data/" + sceneControl.applicationControl.rehabilitationInfo.patientID + "_" + Dater.GetDate() + ".png", bytes);

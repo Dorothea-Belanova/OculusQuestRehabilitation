@@ -309,7 +309,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681841553}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -0.2940006}
+  m_LocalPosition: {x: 0, y: 0, z: -0.283}
   m_LocalScale: {x: 0.8571428, y: 0.6315871, z: 0.099999994}
   m_Children:
   - {fileID: 139104381}
@@ -318,7 +318,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.011998355, y: -2.4999895}
+  m_AnchoredPosition: {x: -0.011998355, y: -2.5}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &681841555
@@ -701,6 +701,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac27902eb70b4d74d9da9dff840f0379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localizationLanguage: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+    type: 2}
   key: score_text
 --- !u!1 &865201381 stripped
 GameObject:
@@ -720,6 +722,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac27902eb70b4d74d9da9dff840f0379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localizationLanguage: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+    type: 2}
   key: distance_text
 --- !u!1001 &911317082
 PrefabInstance:

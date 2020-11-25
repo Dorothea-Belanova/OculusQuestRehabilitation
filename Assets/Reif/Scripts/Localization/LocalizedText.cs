@@ -6,35 +6,43 @@ using TMPro;
 
 public class LocalizedText: MonoBehaviour {
 
-    [SerializeField] public string key;
+    [SerializeField] private CurrentLocalizationLanguage localizationLanguage;
+    [SerializeField] private string key;
 
-    private LocalizationManager localizationManager;
     private bool boldAtFirst;
 
-    private void Start() {
-        localizationManager = GameObject.FindGameObjectWithTag("LocalizationManager").GetComponent<LocalizationManager>();
-        localizationManager.OnLocalizationChange += ChangeText;
+    private void Start() => Initialize();
+
+    private void OnDestroy() => localizationLanguage.OnLanguageChanged -= OnLanguageChanged;
+
+    private void Initialize()
+    {
+        localizationLanguage.OnLanguageChanged += OnLanguageChanged;
 
         boldAtFirst = IsBold();
 
-        if(localizationManager.GetIsReady()) {
-            ChangeText();
-        }
+        if (localizationLanguage.IsLoaded())
+            SetText();
     }
 
-    public void ChangeText() {
-        Debug.Log("changing text");
-        string value = LocalizationManager.instance.GetLocalizedValue(key);
+    private void OnLanguageChanged() => SetText();
 
-        if(GetComponent<Text>()) {
+    private void SetText()
+    {
+        string value = localizationLanguage.GetLocalizedValue(key);
+
+        if (GetComponent<Text>())
+        {
             Text text = GetComponent<Text>();
             text.text = value;
         }
-        else if(GetComponent<TextMeshPro>()) {
+        else if (GetComponent<TextMeshPro>())
+        {
             TextMeshPro text = GetComponent<TextMeshPro>();
             text.text = value;
         }
-        else if(GetComponent<TextMeshProUGUI>()) {
+        else if (GetComponent<TextMeshProUGUI>())
+        {
             TextMeshProUGUI text = GetComponent<TextMeshProUGUI>();
             text.text = value;
         }
@@ -45,10 +53,10 @@ public class LocalizedText: MonoBehaviour {
     private void TakeCareOfBoldText() {
         if(!boldAtFirst)
             return;
-        if(boldAtFirst && IsBold() && LocalizationManager.instance.GetLanguage().code == "jp") {
+        if(boldAtFirst && IsBold() && localizationLanguage.language.code == "jp") {
             SetBold(false);
         }
-        else if(boldAtFirst && !IsBold() && LocalizationManager.instance.GetLanguage().code != "jp") {
+        else if(boldAtFirst && !IsBold() && localizationLanguage.language.code != "jp") {
             SetBold(true);
         }
     }
@@ -77,5 +85,13 @@ public class LocalizedText: MonoBehaviour {
         }
 
         return false;
+    }
+
+    public void SetValues(string key, CurrentLocalizationLanguage localizationLanguage)
+    {
+        this.key = key;
+        this.localizationLanguage = localizationLanguage;
+
+        Initialize();
     }
 }

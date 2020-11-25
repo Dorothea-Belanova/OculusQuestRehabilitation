@@ -8,6 +8,7 @@ using TMPro;
 //[AddComponentMenu("UI/Segmented Control", 32)]
 public class SegmentedControl: MonoBehaviour {
 
+    [SerializeField] private CurrentLocalizationLanguage localizationLanguage;
     [SerializeField] public int selected = -1;
     [SerializeField] public Color normalColor = Color.white;
     [SerializeField] public Color selectedColor = Color.grey;
@@ -72,7 +73,7 @@ public class SegmentedControl: MonoBehaviour {
             if (supportsLocalization)
             {
                 text.AddComponent<LocalizedText>();
-                text.GetComponent<LocalizedText>().key = segmentsTranslationKeywords[i];
+                text.GetComponent<LocalizedText>().SetValues(segmentsTranslationKeywords[i], localizationLanguage);
             }
         }
     }

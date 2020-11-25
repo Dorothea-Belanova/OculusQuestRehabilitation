@@ -150,6 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c01c82d75f04074bb71b019578fba9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLocalizationLanguage: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+    type: 2}
+  initialLocalizationFileName: localization_jp
 --- !u!4 &142122645
 Transform:
   m_ObjectHideFlags: 0
@@ -521,6 +524,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 605342884, guid: e509ade572f7e4749a68aa2837287899, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 605342886, guid: e509ade572f7e4749a68aa2837287899, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 605342889, guid: e509ade572f7e4749a68aa2837287899, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 605342890, guid: e509ade572f7e4749a68aa2837287899, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 605342893, guid: e509ade572f7e4749a68aa2837287899, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 605342894, guid: e509ade572f7e4749a68aa2837287899, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 605342896, guid: e509ade572f7e4749a68aa2837287899, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
     - target: {fileID: 660532820, guid: e509ade572f7e4749a68aa2837287899, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -557,6 +595,11 @@ PrefabInstance:
       propertyPath: m_padding
       value: 1.25
       objectReference: {fileID: 0}
+    - target: {fileID: 2002654750, guid: e509ade572f7e4749a68aa2837287899, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
     - target: {fileID: 2031191232, guid: e509ade572f7e4749a68aa2837287899, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -569,6 +612,11 @@ PrefabInstance:
       propertyPath: supportsLocalization
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6448077756375, guid: e509ade572f7e4749a68aa2837287899, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
     - target: {fileID: 1244763691614014872, guid: e509ade572f7e4749a68aa2837287899,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -729,6 +777,12 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2496479905141879411, guid: e509ade572f7e4749a68aa2837287899,
+        type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
     - target: {fileID: 6499813814091642770, guid: e509ade572f7e4749a68aa2837287899,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -779,6 +833,12 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9010053560510310120, guid: e509ade572f7e4749a68aa2837287899,
+        type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e509ade572f7e4749a68aa2837287899, type: 3}
 --- !u!1 &605342866 stripped
@@ -1927,6 +1987,10 @@ PrefabInstance:
       propertyPath: supportsLocalization
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6448297936250, guid: 72880e2df33eacc498333600c284007a, type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6448297936251, guid: 72880e2df33eacc498333600c284007a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2730,11 +2794,35 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1527006408483980162, guid: 46b7e631bc57d1145aadd24b8a39c544,
+        type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 2761226478931137374, guid: 46b7e631bc57d1145aadd24b8a39c544,
+        type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
+    - target: {fileID: 3939211627073593749, guid: 46b7e631bc57d1145aadd24b8a39c544,
+        type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
     - target: {fileID: 3981845239314754913, guid: 46b7e631bc57d1145aadd24b8a39c544,
         type: 3}
       propertyPath: keyType
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 6565156284529471394, guid: 46b7e631bc57d1145aadd24b8a39c544,
+        type: 3}
+      propertyPath: localizationLanguage
+      value: 
+      objectReference: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46b7e631bc57d1145aadd24b8a39c544, type: 3}
 --- !u!1 &1816773743 stripped

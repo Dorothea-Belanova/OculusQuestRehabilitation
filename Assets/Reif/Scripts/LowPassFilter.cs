@@ -23,7 +23,7 @@ namespace ErrorCorrection
         /// <returns>
         /// Filtered current position.
         /// </returns>
-        /// <param name="positions">List of positions representing hand position over time.</param>
+        /// <param name="positions">List of positions representing hand position over time</param>
         public override Vector3 Filtrate(List<Vector3> positions)
         {
             Vector3 currentPosition = positions[positions.Count - 1];
@@ -78,9 +78,9 @@ namespace ErrorCorrection
         /// Recalculates threshold to adjust it to decreasing or increasing distances in previous
         /// and current positions.
         /// </summary>
-        /// <param name="distance">Distance between previous and current position in single axis.</param>
-        /// <param name="isIncreasing">Marks if value in a single axis of current position is higher than in previous position.</param>
-        /// <param name="i">Index of the axis in which to recalculate threshold.</param>
+        /// <param name="distance">Distance between previous and current position in single axis</param>
+        /// <param name="isIncreasing">Marks if value in a single axis of current position is higher than in previous position</param>
+        /// <param name="i">Index of the axis in which to recalculate threshold</param>
         private void RecalculateThreshold(float distance, bool isIncreasing, int i)
         {
             switch (lowPassApproach)
@@ -97,8 +97,7 @@ namespace ErrorCorrection
                         threshold[i] = (threshold[i] + distance * 2) / 3;
                         break;
                     }
-                // Puts more weight to threshold when increasing
-                // Puts more weight to distance when decreasing
+                // Puts more weight to threshold when increasing and to distance when decreasing
                 case LowPassApproach.CombinedPass:
                     {
                         if (isIncreasing)

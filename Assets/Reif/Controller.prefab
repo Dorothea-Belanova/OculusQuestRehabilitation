@@ -1041,6 +1041,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac27902eb70b4d74d9da9dff840f0379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localizationLanguage: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+    type: 2}
   key: calibration
 --- !u!1 &6223454346717391629
 GameObject:
@@ -1745,6 +1747,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac27902eb70b4d74d9da9dff840f0379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localizationLanguage: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+    type: 2}
   key: alarm
 --- !u!1 &8147816542966156115
 GameObject:
@@ -2578,6 +2582,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac27902eb70b4d74d9da9dff840f0379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localizationLanguage: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+    type: 2}
   key: startGame
 --- !u!1 &8147816543388333689
 GameObject:
@@ -2826,6 +2832,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac27902eb70b4d74d9da9dff840f0379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localizationLanguage: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+    type: 2}
   key: verticalGameToggle
 --- !u!1 &8147816543846181466
 GameObject:
@@ -4493,6 +4501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac27902eb70b4d74d9da9dff840f0379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localizationLanguage: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+    type: 2}
   key: quitGame
 --- !u!1 &8147816544644373584
 GameObject:

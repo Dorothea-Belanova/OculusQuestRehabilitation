@@ -73,7 +73,7 @@ public class SegmentedControl: MonoBehaviour {
             if (supportsLocalization)
             {
                 text.AddComponent<LocalizedText>();
-                text.GetComponent<LocalizedText>().SetValues(segmentsTranslationKeywords[i], localizationLanguage);
+                text.GetComponent<LocalizedText>().SetLocalizationValues(segmentsTranslationKeywords[i], localizationLanguage);
             }
         }
     }

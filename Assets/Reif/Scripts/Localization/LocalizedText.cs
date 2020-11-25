@@ -29,65 +29,46 @@ public class LocalizedText: MonoBehaviour {
 
     private void SetText()
     {
-        string value = localizationLanguage.GetLocalizedValue(key);
+        var value = localizationLanguage.GetLocalizedValue(key);
 
-        if (GetComponent<Text>())
-        {
-            Text text = GetComponent<Text>();
-            text.text = value;
-        }
-        else if (GetComponent<TextMeshPro>())
-        {
-            TextMeshPro text = GetComponent<TextMeshPro>();
-            text.text = value;
-        }
+        if (GetComponent<TextMeshPro>())
+            GetComponent<TextMeshPro>().text = value;
         else if (GetComponent<TextMeshProUGUI>())
-        {
-            TextMeshProUGUI text = GetComponent<TextMeshProUGUI>();
-            text.text = value;
-        }
+            GetComponent<TextMeshProUGUI>().text = value;
 
-        TakeCareOfBoldText();
+        if(boldAtFirst)
+            HandleBoldText();
     }
 
-    private void TakeCareOfBoldText() {
-        if(!boldAtFirst)
-            return;
-        if(boldAtFirst && IsBold() && localizationLanguage.language.code == "jp") {
-            SetBold(false);
+    private void HandleBoldText() {
+        if(IsBold() && localizationLanguage.language.code == "jp") {
+            SetTextBold(false);
         }
-        else if(boldAtFirst && !IsBold() && localizationLanguage.language.code != "jp") {
-            SetBold(true);
+
+        else if(!IsBold() && localizationLanguage.language.code != "jp") {
+            SetTextBold(true);
         }
     }
 
-    private bool SetBold(bool value) {
-        if(GetComponent<Text>()) {
-            Text text = GetComponent<Text>();
-            text.fontStyle = value ? FontStyle.Bold : FontStyle.Normal;
-        }
-        else if(GetComponent<TextMeshPro>() || GetComponent<TextMeshProUGUI>()) {
-            TextMeshPro text = GetComponent<TextMeshPro>();
-            text.fontStyle = value ? FontStyles.Bold : FontStyles.Normal;
-        }
+    private void SetTextBold(bool value) {
+        var fontStype = value ? FontStyles.Bold : FontStyles.Normal;
 
-        return false;
+        if (GetComponent<TextMeshPro>())
+            GetComponent<TextMeshPro>().fontStyle = fontStype;
+        else if (GetComponent<TextMeshProUGUI>())
+            GetComponent<TextMeshProUGUI>().fontStyle = fontStype;
     }
 
     private bool IsBold() {
-        if(GetComponent<Text>()) {
-            Text text = GetComponent<Text>();
-            return text.fontStyle == FontStyle.Bold;
-        }
-        else if(GetComponent<TextMeshProUGUI>()) {
-            TextMeshProUGUI text = GetComponent<TextMeshProUGUI>();
-            return text.fontStyle == FontStyles.Bold;
-        }
+        if (GetComponent<TextMeshPro>())
+            return GetComponent<TextMeshPro>().fontStyle == FontStyles.Bold;
+        else if (GetComponent<TextMeshProUGUI>())
+            return GetComponent<TextMeshProUGUI>().fontStyle == FontStyles.Bold;
 
         return false;
     }
 
-    public void SetValues(string key, CurrentLocalizationLanguage localizationLanguage)
+    public void SetLocalizationValues(string key, CurrentLocalizationLanguage localizationLanguage)
     {
         this.key = key;
         this.localizationLanguage = localizationLanguage;

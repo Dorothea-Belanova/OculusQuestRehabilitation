@@ -2,28 +2,34 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class InitialSceneControl: MonoBehaviour {
 
-    [SerializeField] public InputField patientIDInputField;
-    [SerializeField] public Slider verticalGameSlider;
-    [SerializeField] public InputField verticalGameInputField;
+    [SerializeField] public TMP_InputField patientIDInputField;
+    [SerializeField] private SliderInputFieldTMProPanel verticalGamePanel;
+    /*[SerializeField] public Slider verticalGameSlider;
+    [SerializeField] public TMP_InputField verticalGameInputField;*/
     [SerializeField] public GameObject segmentedControl;
     [SerializeField] public GameObject afterHandSelectionGroup;
     [SerializeField] public GameObject afterHandSelectionLabelGroup;
 
-    [SerializeField] public Slider maxHandDistanceSlider;
-    [SerializeField] public InputField maxHandDistanceInputField;
+    [SerializeField] private SliderInputFieldTMProPanel maxHandDistancePanel;
+    /*[SerializeField] public Slider maxHandDistanceSlider;
+    [SerializeField] public TMP_InputField maxHandDistanceInputField;*/
 
     [SerializeField] public Toggle fixedExerciseDistanceToggle;
 
     [SerializeField] public GameObject pointsLengthGroup;
     [SerializeField] public GameObject pointsLengthLabelGroup;
-    [SerializeField] public Slider exerciseLengthSlider;
-    [SerializeField] public InputField exerciseLengthInputField;
-    [SerializeField] public Slider numberOfPointsSlider;
-    [SerializeField] public InputField numberOfPointsInputField;
-    [SerializeField] public TMPro.TextMeshProUGUI numberOfPointsErrorText;
+
+    [SerializeField] private SliderInputFieldTMProPanel exerciseLengthPanel;
+    /*[SerializeField] public Slider exerciseLengthSlider;
+    [SerializeField] public TMP_InputField exerciseLengthInputField;*/
+    [SerializeField] private SliderInputFieldTMProPanel numberOfPointsPanel;
+    /*[SerializeField] public Slider numberOfPointsSlider;
+    [SerializeField] public TMP_InputField numberOfPointsInputField;*/
+    [SerializeField] public TextMeshProUGUI numberOfPointsErrorText;
     [SerializeField] public Button continueButton;
 
     [SerializeField] public GameObject keyboardCanvas;
@@ -40,10 +46,13 @@ public class InitialSceneControl: MonoBehaviour {
 
     private bool keyboardOn = false;
 
-    private void Awake() {
+    private void Start() {
         InitializeUIElements();
         AddListeners();
 
+
+        afterHandSelectionGroup.SetActive(false);
+        afterHandSelectionLabelGroup.SetActive(false);
         //FilterTesting.Test();
     }
 
@@ -90,21 +99,23 @@ public class InitialSceneControl: MonoBehaviour {
 
     private void InitializeUIElements() {
         // Setting sliders
-        SetLimitsOnSlider(verticalGameSlider, VERTICAL_GAME_HEIGHT_LIMITS);
-        SetLimitsOnSlider(maxHandDistanceSlider, MAX_HAND_DISTANCE_LIMITS);
-        SetLimitsOnSlider(exerciseLengthSlider, EXERCISE_LENGTH_LIMITS);
+        SetLimitsOnSlider(verticalGamePanel.slider, VERTICAL_GAME_HEIGHT_LIMITS);
+        SetLimitsOnSlider(maxHandDistancePanel.slider, MAX_HAND_DISTANCE_LIMITS);
+        SetLimitsOnSlider(exerciseLengthPanel.slider, EXERCISE_LENGTH_LIMITS);
         SetNumberOfPointsSlider();
 
         // Seting Input Fields
-        SetInputFieldValue(verticalGameSlider, verticalGameInputField);
-        SetInputFieldValue(maxHandDistanceSlider, maxHandDistanceInputField);
-        SetInputFieldValue(exerciseLengthSlider, exerciseLengthInputField, EXERCISE_LENGTH_STEP);
-        SetInputFieldValue(numberOfPointsSlider, numberOfPointsInputField);
+        SetInputFieldValue(verticalGamePanel);
+        SetInputFieldValue(maxHandDistancePanel);
+        SetInputFieldValue(exerciseLengthPanel, EXERCISE_LENGTH_STEP);
+        SetInputFieldValue(numberOfPointsPanel);
 
         continueButton.GetComponent<Button>().interactable = false;
     }
 
     private void SetLimitsOnSlider(Slider slider, Limits limits) {
+        Debug.Log("SETTING LIMITS FOR: " + slider.name);
+
         slider.minValue = limits.min;
         slider.maxValue = limits.max;
 
@@ -116,25 +127,25 @@ public class InitialSceneControl: MonoBehaviour {
     #region Listeners
     private void AddListeners() {
         // Vertical Game Height Slider
-        verticalGameSlider.onValueChanged.AddListener(delegate {
-            SetInputFieldValue(verticalGameSlider, verticalGameInputField);
+        verticalGamePanel.slider.onValueChanged.AddListener(delegate {
+            SetInputFieldValue(verticalGamePanel);
         });
 
         // Max Hand Distance Slider
-        maxHandDistanceSlider.onValueChanged.AddListener(delegate {
-            SetInputFieldValue(maxHandDistanceSlider, maxHandDistanceInputField);
+        maxHandDistancePanel.slider.onValueChanged.AddListener(delegate {
+            SetInputFieldValue(maxHandDistancePanel);
             SetNumberOfPointsSlider();
         });
 
         // Exercise Length Slider
-        exerciseLengthSlider.onValueChanged.AddListener(delegate {
-            SetInputFieldValue(exerciseLengthSlider, exerciseLengthInputField, EXERCISE_LENGTH_STEP);
+        exerciseLengthPanel.slider.onValueChanged.AddListener(delegate {
+            SetInputFieldValue(exerciseLengthPanel, EXERCISE_LENGTH_STEP);
             SetNumberOfPointsSlider();
         });
 
         // Number of Points Slider
-        numberOfPointsSlider.onValueChanged.AddListener(delegate {
-            SetInputFieldValue(numberOfPointsSlider, numberOfPointsInputField, AreBothHandsSelected() ? 2 : 1);
+        numberOfPointsPanel.slider.onValueChanged.AddListener(delegate {
+            SetInputFieldValue(numberOfPointsPanel, AreBothHandsSelected() ? 2 : 1);
         });
 
         // Fixed Length Toggle
@@ -175,18 +186,18 @@ public class InitialSceneControl: MonoBehaviour {
         Debug.Log("length: " + exerciseLengthSlider.value * 10);
         Debug.Log("min: " + (exerciseLengthSlider.value * 10) / (maxHandDistanceSlider.value - CALCULATION_MARGIN));
         Debug.Log("max: " + (exerciseLengthSlider.value * 10) / (MIN_DISTANCE + CALCULATION_MARGIN));*/
-        int min = (int)Math.Ceiling((exerciseLengthSlider.value * EXERCISE_LENGTH_STEP) / (maxHandDistanceSlider.value));
-        int max = (int)Math.Floor((exerciseLengthSlider.value * EXERCISE_LENGTH_STEP) / MIN_DISTANCE);
+        int min = (int)Math.Ceiling((exerciseLengthPanel.slider.value * EXERCISE_LENGTH_STEP) / (maxHandDistancePanel.slider.value));
+        int max = (int)Math.Floor((exerciseLengthPanel.slider.value * EXERCISE_LENGTH_STEP) / MIN_DISTANCE);
 
 
         if(min > max) {
             max = min;
         }
         if(min == max) {
-            numberOfPointsSlider.enabled = false;
+            numberOfPointsPanel.slider.enabled = false;
         }
         else {
-            numberOfPointsSlider.enabled = true;
+            numberOfPointsPanel.slider.enabled = true;
         }
 
         NumberOfPointsErrorOccurred(false);
@@ -236,12 +247,12 @@ public class InitialSceneControl: MonoBehaviour {
         Debug.Log("max: " + max);
         Limits limits = new Limits(min, max);
 
-        SetLimitsOnSlider(numberOfPointsSlider, limits);
-        SetInputFieldValue(numberOfPointsSlider, numberOfPointsInputField, (AreBothHandsSelected() && !errorOccurred) ? 2 : 1);
+        SetLimitsOnSlider(numberOfPointsPanel.slider, limits);
+        SetInputFieldValue(numberOfPointsPanel, (AreBothHandsSelected() && !errorOccurred) ? 2 : 1);
     }
 
     private void NumberOfPointsErrorOccurred(bool occurred) {
-        numberOfPointsSlider.enabled = !occurred;
+        numberOfPointsPanel.slider.enabled = !occurred;
         numberOfPointsErrorText.gameObject.SetActive(occurred);
         continueButton.GetComponent<Button>().interactable = !occurred;
     }
@@ -251,13 +262,13 @@ public class InitialSceneControl: MonoBehaviour {
         bool bothHands = selectedHand == SelectedHand.BothHands;
 
         exerciseInfo.patientID = patientIDInputField.text;
-        exerciseInfo.verticalGameHeight = verticalGameSlider.value / 100;
+        exerciseInfo.verticalGameHeight = verticalGamePanel.slider.value / 100;
         exerciseInfo.selectedHand = selectedHand;
-        exerciseInfo.maxHandDistance = maxHandDistanceSlider.value / 100;
+        exerciseInfo.maxHandDistance = maxHandDistancePanel.slider.value / 100;
         exerciseInfo.fixedExerciseLength = fixedExerciseDistanceToggle.isOn;
-        exerciseInfo.exerciseLength = (fixedExerciseDistanceToggle.isOn ? Mathf.Floor(exerciseLengthSlider.value) / 10 : -1f);
+        exerciseInfo.exerciseLength = (fixedExerciseDistanceToggle.isOn ? Mathf.Floor(exerciseLengthPanel.slider.value) / 10 : -1f);
         // I NEED TO FIX THIS, AS I AM NOT REACTING TO CHANGE OF SELECTED HAND VALUE
-        exerciseInfo.numberOfPoints = fixedExerciseDistanceToggle.isOn ? (bothHands ? (int)numberOfPointsSlider.value * 2 : (int)numberOfPointsSlider.value) : -1;
+        exerciseInfo.numberOfPoints = fixedExerciseDistanceToggle.isOn ? (bothHands ? (int)numberOfPointsPanel.slider.value * 2 : (int)numberOfPointsPanel.slider.value) : -1;
         //exerciseInfo.numberOfPoints = fixedExerciseDistanceToggle.isOn ? (int)numberOfPointsSlider.value * 2 : -1;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -265,9 +276,10 @@ public class InitialSceneControl: MonoBehaviour {
 
     #endregion
 
-    private void SetInputFieldValue(Slider slider, InputField inputField, int multiplier = 1) {
+    private void SetInputFieldValue(SliderInputFieldTMProPanel panel, int multiplier = 1) {
         //Debug.Log("multiplier: " + multiplier);
-        inputField.text = ((int)(slider.value * multiplier)).ToString();
+        Debug.Log("SETTING INPUT FOR: " + panel.name);
+        panel.inputField.text = ((int)(panel.slider.value * multiplier)).ToString();
         //Debug.Log("value: " + inputField.text);
     }
 

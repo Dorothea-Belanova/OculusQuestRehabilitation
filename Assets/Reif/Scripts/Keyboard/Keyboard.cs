@@ -20,7 +20,7 @@ public class Keyboard: MonoBehaviour {
     }
 
     public void AddCharacter(string character) {
-        Debug.Log("called: " + character);
+        //Debug.Log("called: " + character);
         inputField.text = inputField.text + (character.Length > 1 ? " " : character);
     }
 

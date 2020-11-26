@@ -42,6 +42,6 @@ public class CurrentLocalizationLanguage : ScriptableObject
     /// </summary>
     public bool IsLoaded()
     {
-        return (localizationPairs.Count > 0);
+        return (localizationPairs != null && localizationPairs.Count > 0);
     }
 }

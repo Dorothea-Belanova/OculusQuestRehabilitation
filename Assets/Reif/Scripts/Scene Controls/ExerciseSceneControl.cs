@@ -112,11 +112,20 @@ public class ExerciseSceneControl : MonoBehaviour {
                 points /= 2;
             }
 
+            int trialIndex = -1;
             do
             {
-                Debug.Log("PRUSER");
+                ++trialIndex;
+                Debug.Log("TRIAL INDEX: " + trialIndex);
                 distances = PointRandomizer.GenerateDistances(min, max, length, points);
-            } while (distances == null);
+            } while (distances == null && trialIndex < 10);
+
+            if(distances == null && trialIndex >= 10)
+            {
+                Debug.Log("VYTVARAM SAMA");
+                for (int i = 0; i < points; ++i)
+                    distances[i] = length / (float)points;
+            }
 
             if (exerciseInfo.selectedHand == SelectedHand.BothHands)
             {

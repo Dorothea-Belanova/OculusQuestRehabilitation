@@ -55,26 +55,18 @@ public static class PointRandomizer {
         float cMax = max;
 
         float[] distances = new float[points];
-        /*Debug.Log("length: " + length);
+        Debug.Log("length: " + length);
         Debug.Log("points: " + points);
         Debug.Log("min: " + min);
-        Debug.Log("min: " + max);*/
+        Debug.Log("min: " + max);
 
         for (int i = 0; i < points - 1; ++i)
         {
-            if (points == 2)
-            {
-                (cMin, cMax) = RecalculateLimits(min, max, length, sum, points, i);
-            }
+            (cMin, cMax) = RecalculateLimits(min, max, length, sum, points, i);
 
             var random = Random.Range(cMin, cMax);
             distances[i] = random;
             sum += random;
-
-            if (points != 2)
-            {
-                (cMin, cMax) = RecalculateLimits(min, max, length, sum, points, i);
-            }
         }
 
         float lastDistance = length - sum;
@@ -93,44 +85,10 @@ public static class PointRandomizer {
         {
             return distances;
         }
-
-        /*float sum = 0f;
-        float cMin = min;
-        float cMax = max;
-
-        float[] distances = new float[points];
-
-        for(int i = 0; i < points - 1; ++i) {
-            if(points == 2) {
-                (cMin, cMax) = RecalculateLimits(min, max, length, sum, points, i);
-            }
-
-            var random = Random.Range(cMin, cMax);
-            distances[i] = random;
-            sum += random;
-
-            if(points != 2) {
-                (cMin, cMax) = RecalculateLimits(min, max, length, sum, points, i);
-            }
-        }
-
-        float lastDistance = length - sum;
-        distances[points - 1] = lastDistance;
-
-        if(lastDistance > max || lastDistance < min) {
-            Debug.Log("PROBLEM: ");
-            for(int i = 0; i < points; ++i) {
-                Debug.Log(i + ": " + distances[i]);
-            }
-            return null;
-        }
-        else {
-            return distances;
-        }*/
     }
 
     private static (float cMin, float cMax) RecalculateLimits(float min, float max, float length, float sum, float points, float i) {
-        var avg = (length - sum) / (points - i - 1);
+        var avg = (length - sum) / (points - i);
         var diff = Mathf.Min(Mathf.Abs(max - avg), Mathf.Abs(avg - min));
         float cMin = avg - diff > min ? avg - diff : min;
         float cMax = avg + diff < max ? avg + diff : max;

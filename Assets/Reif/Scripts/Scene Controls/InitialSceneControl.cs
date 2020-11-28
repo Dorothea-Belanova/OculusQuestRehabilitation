@@ -4,81 +4,46 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class InitialSceneControl: MonoBehaviour {
+public class InitialSceneControl : MonoBehaviour {
 
+    [Header("Main Canvas Elements")]
     [SerializeField] private TMP_InputField patientIDInputField;
     [SerializeField] private SliderInputFieldTMProPanel verticalGamePanel;
     [SerializeField] private GameObject segmentedControl;
     [SerializeField] private GameObject afterHandSelectionGroup;
     [SerializeField] private GameObject afterHandSelectionLabelGroup;
     [SerializeField] private SliderInputFieldTMProPanel maxHandDistancePanel;
-
     [SerializeField] private Toggle fixedExerciseDistanceToggle;
-
     [SerializeField] private GameObject pointsLengthGroup;
     [SerializeField] private GameObject pointsLengthLabelGroup;
-
     [SerializeField] private SliderInputFieldTMProPanel exerciseLengthPanel;
     [SerializeField] private SliderInputFieldTMProPanel numberOfPointsPanel;
     [SerializeField] private TextMeshProUGUI numberOfPointsErrorText;
     [SerializeField] private Button continueButton;
 
+    [Header("")]
     [SerializeField] private GameObject keyboardCanvas;
-
     [SerializeField] private ExerciseInfo exerciseInfo;
 
-    // STATIC VALUES
-    static Limits VERTICAL_GAME_HEIGHT_LIMITS = new Limits(15f, 40f); // with step 1 cm
-    static Limits MAX_HAND_DISTANCE_LIMITS = new Limits(35f, 85f); // with step 1 cm
-    static Limits EXERCISE_LENGTH_LIMITS = new Limits(12f, 100f); // with step 10 cm
-    static float MIN_DISTANCE = 25f;
-    static float CALCULATION_MARGIN = 8f;
-    static int EXERCISE_LENGTH_STEP = 10;
+    private bool isKeyboardOn = false;
+    private SelectedHand selectedHand = SelectedHand.None;
 
-    private bool keyboardOn = false;
-
+    /// <remarks>
+    /// Has to be in Start (not in Awake) as in Oculus Quest the elements
+    /// of SliderInputFieldTMProPanel are not instantiated yet.
+    /// </remarks>
     private void Start() {
         InitializeUIElements();
         AddListeners();
 
         afterHandSelectionGroup.SetActive(false);
         afterHandSelectionLabelGroup.SetActive(false);
-        //FilterTesting.Test();
     }
 
+    // TODO: POTOM ZMAZAT
     private void Update() {
-        /*if(patientIDInputField.isFocused && !keyboardOn) {
-            keyboardOn = true;
-            Debug.Log("keyboard is on");
-            //keyboardCanvas.GetComponent<Image>().CrossFadeAlpha(0.1f, 2.0f, false);
-            keyboardCanvas.SetActive(true);
-            //StartCoroutine(FadeEffect.FadeCanvas(keyboardCanvas, 0f, 1f, 2f));
-            //keyboardCanvas.alpha = 1f;
-        }*/
-
         if (Input.GetKeyDown(KeyCode.Space))
             ContinueButtonClicked();
-    }
-
-    public void PatientIDInputClicked()
-    {
-        patientIDInputField.interactable = false;
-        keyboardOn = true;
-        //keyboardCanvas.GetComponent<Image>().CrossFadeAlpha(0.1f, 2.0f, false);
-        keyboardCanvas.SetActive(true);
-        //StartCoroutine(FadeEffect.FadeCanvas(keyboardCanvas, 0f, 1f, 2f));
-        //keyboardCanvas.alpha = 1f;
-    }
-
-    public void KeyboardSet(string patientID) {
-        patientIDInputField.interactable = true;
-        patientIDInputField.text = patientID;
-        keyboardCanvas.SetActive(false);
-        keyboardOn = false;
-    }
-
-    private void OnPatientIDFocus() {
-        keyboardCanvas.SetActive(true);
     }
 
     private void OnApplicationQuit() {
@@ -88,27 +53,24 @@ public class InitialSceneControl: MonoBehaviour {
     #region Initialization
 
     private void InitializeUIElements() {
-        // Setting sliders
-        SetLimitsOnSlider(verticalGamePanel.slider, VERTICAL_GAME_HEIGHT_LIMITS);
-        SetLimitsOnSlider(maxHandDistancePanel.slider, MAX_HAND_DISTANCE_LIMITS);
-        SetLimitsOnSlider(exerciseLengthPanel.slider, EXERCISE_LENGTH_LIMITS);
+        // Setting sliders - min, max and value
+        SetLimitsOnSlider(verticalGamePanel.slider, Constants.VERTICAL_GAME_HEIGHT_LIMITS);
+        SetLimitsOnSlider(maxHandDistancePanel.slider, Constants.MAX_HAND_DISTANCE_LIMITS);
+        SetLimitsOnSlider(exerciseLengthPanel.slider, Constants.EXERCISE_LENGTH_LIMITS);
         SetNumberOfPointsSlider();
 
-        // Seting Input Fields
+        // Seting Input Fields - current slider value
         SetInputFieldValue(verticalGamePanel);
         SetInputFieldValue(maxHandDistancePanel);
-        SetInputFieldValue(exerciseLengthPanel, EXERCISE_LENGTH_STEP);
+        SetInputFieldValue(exerciseLengthPanel, Constants.EXERCISE_LENGTH_STEP);
         SetInputFieldValue(numberOfPointsPanel);
 
-        continueButton.GetComponent<Button>().interactable = false;
+        HandleContinueButtonInteractivity();
     }
 
     private void SetLimitsOnSlider(Slider slider, Limits limits) {
-        Debug.Log("SETTING LIMITS FOR: " + slider.name);
-
         slider.minValue = limits.min;
         slider.maxValue = limits.max;
-
         slider.value = limits.min;
     }
 
@@ -129,13 +91,13 @@ public class InitialSceneControl: MonoBehaviour {
 
         // Exercise Length Slider
         exerciseLengthPanel.slider.onValueChanged.AddListener(delegate {
-            SetInputFieldValue(exerciseLengthPanel, EXERCISE_LENGTH_STEP);
+            SetInputFieldValue(exerciseLengthPanel, Constants.EXERCISE_LENGTH_STEP);
             SetNumberOfPointsSlider();
         });
 
         // Number of Points Slider
         numberOfPointsPanel.slider.onValueChanged.AddListener(delegate {
-            SetInputFieldValue(numberOfPointsPanel, AreBothHandsSelected() ? 2 : 1);
+            SetInputFieldValue(numberOfPointsPanel, selectedHand == SelectedHand.BothHands ? 2 : 1);
         });
 
         // Fixed Length Toggle
@@ -152,10 +114,27 @@ public class InitialSceneControl: MonoBehaviour {
         });
     }
 
-    private void HandSelected(SelectedHand selectedHand) {
+    public void OnPatientIDInputClicked()
+    {
+        patientIDInputField.interactable = false;
+        isKeyboardOn = true;
+        keyboardCanvas.SetActive(true);
+    }
+
+    public void OnKeyboardEnterClicked(string patientID)
+    {
+        patientIDInputField.interactable = true;
+        patientIDInputField.text = patientID;
+        keyboardCanvas.SetActive(false);
+        isKeyboardOn = false;
+        HandleContinueButtonInteractivity();
+    }
+
+    private void HandSelected(SelectedHand handSelected) {
         afterHandSelectionGroup.SetActive(true);
         afterHandSelectionLabelGroup.SetActive(true);
-        continueButton.GetComponent<Button>().interactable = true;
+        selectedHand = (SelectedHand)segmentedControl.GetComponent<SegmentedControl>().GetSelectedIndex();
+
         SetNumberOfPointsSlider();
     }
 
@@ -163,10 +142,31 @@ public class InitialSceneControl: MonoBehaviour {
         pointsLengthGroup.SetActive(fixedExerciseDistanceToggle.isOn);
         pointsLengthLabelGroup.SetActive(fixedExerciseDistanceToggle.isOn);
 
-        if (!fixedExerciseDistanceToggle.isOn)
-            continueButton.GetComponent<Button>().interactable = true;
-        if(fixedExerciseDistanceToggle.isOn)
+        if (fixedExerciseDistanceToggle.isOn)
             SetNumberOfPointsSlider();
+        else
+            HandleContinueButtonInteractivity();
+    }
+
+    public void HandleContinueButtonInteractivity()
+    {
+        var interactable = false;
+
+        // Rules when Continue button is active only when:
+        // 1. patient ID is set
+        // 2. hand was selected
+        // 3.a it is not fixed length exercise
+        // 3.b it is fixed length exercise with single hand selected
+        // 3.c it is fixed exercise length with both hands and number of points is even
+
+        if (patientIDInputField.text != "" &&
+            selectedHand != SelectedHand.None &&
+            (!fixedExerciseDistanceToggle.isOn ||
+            (fixedExerciseDistanceToggle.isOn && selectedHand != SelectedHand.BothHands) ||
+            (fixedExerciseDistanceToggle.isOn && selectedHand == SelectedHand.BothHands && !numberOfPointsErrorText.IsActive())))
+            interactable = true;
+
+        continueButton.GetComponent<Button>().interactable = interactable;
     }
 
     private void SetNumberOfPointsSlider() {
@@ -176,9 +176,10 @@ public class InitialSceneControl: MonoBehaviour {
         Debug.Log("length: " + exerciseLengthSlider.value * 10);
         Debug.Log("min: " + (exerciseLengthSlider.value * 10) / (maxHandDistanceSlider.value - CALCULATION_MARGIN));
         Debug.Log("max: " + (exerciseLengthSlider.value * 10) / (MIN_DISTANCE + CALCULATION_MARGIN));*/
-        int min = (int)Math.Ceiling((exerciseLengthPanel.slider.value * EXERCISE_LENGTH_STEP) / (maxHandDistancePanel.slider.value));
-        int max = (int)Math.Floor((exerciseLengthPanel.slider.value * EXERCISE_LENGTH_STEP) / MIN_DISTANCE);
-
+        float difference = (maxHandDistancePanel.slider.value - Constants.MIN_HAND_DISTANCE) / 3f;
+        Debug.Log("DIFFERENCE: " + difference);
+        int min = (int)Math.Ceiling((exerciseLengthPanel.slider.value * Constants.EXERCISE_LENGTH_STEP) / (maxHandDistancePanel.slider.value - difference));
+        int max = (int)Math.Floor((exerciseLengthPanel.slider.value * Constants.EXERCISE_LENGTH_STEP) / (Constants.MIN_HAND_DISTANCE + difference));
 
         if(min > max) {
             max = min;
@@ -190,14 +191,11 @@ public class InitialSceneControl: MonoBehaviour {
             numberOfPointsPanel.slider.enabled = true;
         }
 
-        NumberOfPointsErrorOccurred(false);
-
-        Debug.Log("min: " + min);
-        Debug.Log("max: " + max);
+        //NumberOfPointsErrorOccurred(false);
 
         bool errorOccurred = false;
 
-        if(AreBothHandsSelected()) {
+        if(selectedHand == SelectedHand.BothHands) {
             if(min == max && !min.IsEven()) {
                 Debug.Log("tu som");
                 errorOccurred = true;
@@ -224,31 +222,33 @@ public class InitialSceneControl: MonoBehaviour {
                 }
             }
             if(!errorOccurred) {
-                Debug.Log("tadaa");
+                Debug.Log("DELIM DVOMI");
                 min /= 2;
                 max /= 2;
             }
         }
 
-        Debug.Log("tadyyy");
+        Debug.Log("EROR OCCURRED: " + errorOccurred);
         NumberOfPointsErrorOccurred(errorOccurred);
 
         Debug.Log("min: " + min);
         Debug.Log("max: " + max);
         Limits limits = new Limits(min, max);
 
+        Debug.Log("OVERENIE: ");
+        Debug.Log("min: " + limits.min);
+        Debug.Log("max: " + limits.max);
         SetLimitsOnSlider(numberOfPointsPanel.slider, limits);
-        SetInputFieldValue(numberOfPointsPanel, (AreBothHandsSelected() && !errorOccurred) ? 2 : 1);
+        SetInputFieldValue(numberOfPointsPanel, (selectedHand == SelectedHand.BothHands && !errorOccurred) ? 2 : 1);
+        HandleContinueButtonInteractivity();
     }
 
     private void NumberOfPointsErrorOccurred(bool occurred) {
         numberOfPointsPanel.slider.enabled = !occurred;
         numberOfPointsErrorText.gameObject.SetActive(occurred);
-        continueButton.GetComponent<Button>().interactable = !occurred;
     }
 
     void ContinueButtonClicked() {
-        SelectedHand selectedHand = (SelectedHand)segmentedControl.GetComponent<SegmentedControl>().GetSelectedIndex();
         bool bothHands = selectedHand == SelectedHand.BothHands;
 
         exerciseInfo.patientID = patientIDInputField.text;
@@ -267,14 +267,7 @@ public class InitialSceneControl: MonoBehaviour {
     #endregion
 
     private void SetInputFieldValue(SliderInputFieldTMProPanel panel, int multiplier = 1) {
-        //Debug.Log("multiplier: " + multiplier);
-        Debug.Log("SETTING INPUT FOR: " + panel.name);
         panel.inputField.text = ((int)(panel.slider.value * multiplier)).ToString();
-        //Debug.Log("value: " + inputField.text);
-    }
-
-    private bool AreBothHandsSelected() {
-        return segmentedControl.GetComponent<SegmentedControl>().GetSelectedIndex() == 0;
     }
 }
 
@@ -290,6 +283,7 @@ public struct Limits {
 
 public enum SelectedHand
 {
+    None = -1,
     BothHands,
     LeftHand,
     RightHand

@@ -7,7 +7,9 @@ using UnityEngine.UI;
 using TMPro;
 
 public class Keyboard: MonoBehaviour {
+
     public event Action OnCapslockToggle = delegate { };
+
 
     [SerializeField] public TMP_InputField inputField;
     public bool isCapsOn = false;
@@ -38,8 +40,10 @@ public class Keyboard: MonoBehaviour {
     public void EnterPressed() {
         Debug.Log("NAME: " + inputField.text);
 
-        sceneControl.KeyboardSet(inputField.text);
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        // Removes whitespace from front and end of Patient ID
+        inputField.text = inputField.text.Trim();
+
+        sceneControl.OnKeyboardEnterClicked(inputField.text);
     }
 
     public void Clear() {

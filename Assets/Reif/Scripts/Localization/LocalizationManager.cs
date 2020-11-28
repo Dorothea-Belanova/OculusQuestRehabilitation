@@ -1,14 +1,32 @@
 ﻿using UnityEngine;
 using System.IO;
 using UnityEngine.Android;
+using UnityEngine.UI;
 
 public class LocalizationManager: MonoBehaviour
 { 
     [SerializeField] private CurrentLocalizationLanguage currentLocalizationLanguage;
-    [SerializeField] private string initialLocalizationFileName = "localization_jp";
+    [SerializeField] private string[] localizationFiles;
+    [SerializeField] private Button changeLanguageButton;
+
+    private int localizationIndex = 0;
 
     void Awake() {
-            LoadLocalizationData(initialLocalizationFileName);
+        changeLanguageButton.onClick.AddListener(delegate {
+            ChangeLocalizationLanguage();
+        });
+
+        BetterStreamingAssets.Initialize();
+        LoadLocalizationData(localizationFiles[localizationIndex]);
+    }
+
+    /// <summary>
+    /// When triggered by Change language button, it loads next file in a localization files list.
+    /// </summary>
+    public void ChangeLocalizationLanguage()
+    {
+        localizationIndex = (localizationIndex + 1 >= localizationFiles.Length) ? 0 : ++localizationIndex;
+        LoadLocalizationData(localizationFiles[localizationIndex]);
     }
 
     /// <summary>
@@ -17,13 +35,13 @@ public class LocalizationManager: MonoBehaviour
     /// <param name="fileName">Language localization file name</param>
     public void LoadLocalizationData(string fileName) {
         // Uses BetterStreamingAssets asset to find file location
-        BetterStreamingAssets.Initialize();
-        string[] paths = BetterStreamingAssets.GetFiles("/", fileName + ".json", SearchOption.AllDirectories);
+        string[] paths = BetterStreamingAssets.GetFiles(Constants.LOCALIZATION_FILES_DIRECTORY, fileName + ".json", SearchOption.AllDirectories);
 
         if (paths.Length > 0)
         {
             // Uses BetterStreamingAssets asset to read contents of a file
             string dataAsJson = BetterStreamingAssets.ReadAllText(paths[0]);
+            Debug.Log(dataAsJson);
 
             // Deserialization of data
             LocalizationData loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);

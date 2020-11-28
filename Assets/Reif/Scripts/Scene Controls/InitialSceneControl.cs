@@ -6,33 +6,24 @@ using TMPro;
 
 public class InitialSceneControl: MonoBehaviour {
 
-    [SerializeField] public TMP_InputField patientIDInputField;
+    [SerializeField] private TMP_InputField patientIDInputField;
     [SerializeField] private SliderInputFieldTMProPanel verticalGamePanel;
-    /*[SerializeField] public Slider verticalGameSlider;
-    [SerializeField] public TMP_InputField verticalGameInputField;*/
-    [SerializeField] public GameObject segmentedControl;
-    [SerializeField] public GameObject afterHandSelectionGroup;
-    [SerializeField] public GameObject afterHandSelectionLabelGroup;
-
+    [SerializeField] private GameObject segmentedControl;
+    [SerializeField] private GameObject afterHandSelectionGroup;
+    [SerializeField] private GameObject afterHandSelectionLabelGroup;
     [SerializeField] private SliderInputFieldTMProPanel maxHandDistancePanel;
-    /*[SerializeField] public Slider maxHandDistanceSlider;
-    [SerializeField] public TMP_InputField maxHandDistanceInputField;*/
 
-    [SerializeField] public Toggle fixedExerciseDistanceToggle;
+    [SerializeField] private Toggle fixedExerciseDistanceToggle;
 
-    [SerializeField] public GameObject pointsLengthGroup;
-    [SerializeField] public GameObject pointsLengthLabelGroup;
+    [SerializeField] private GameObject pointsLengthGroup;
+    [SerializeField] private GameObject pointsLengthLabelGroup;
 
     [SerializeField] private SliderInputFieldTMProPanel exerciseLengthPanel;
-    /*[SerializeField] public Slider exerciseLengthSlider;
-    [SerializeField] public TMP_InputField exerciseLengthInputField;*/
     [SerializeField] private SliderInputFieldTMProPanel numberOfPointsPanel;
-    /*[SerializeField] public Slider numberOfPointsSlider;
-    [SerializeField] public TMP_InputField numberOfPointsInputField;*/
-    [SerializeField] public TextMeshProUGUI numberOfPointsErrorText;
-    [SerializeField] public Button continueButton;
+    [SerializeField] private TextMeshProUGUI numberOfPointsErrorText;
+    [SerializeField] private Button continueButton;
 
-    [SerializeField] public GameObject keyboardCanvas;
+    [SerializeField] private GameObject keyboardCanvas;
 
     [SerializeField] private ExerciseInfo exerciseInfo;
 
@@ -49,7 +40,6 @@ public class InitialSceneControl: MonoBehaviour {
     private void Start() {
         InitializeUIElements();
         AddListeners();
-
 
         afterHandSelectionGroup.SetActive(false);
         afterHandSelectionLabelGroup.SetActive(false);

@@ -7,4 +7,6 @@
     public const string PATIENTS_DATA_DIRECTORY = "/PatientsData";
 
     public const string CSV_FORMAT = ".csv";
+
+    public const string LOCALIZATION_FILES_DIRECTORY = "Localization";
 }

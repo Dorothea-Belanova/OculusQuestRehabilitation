@@ -27,6 +27,9 @@ namespace ErrorCorrection
 
         float correctedDistance = 0f;
         float notCorrectedDistance = 0f;
+        float previousDistance = 0f;
+        string previousActiveHand;
+        bool handChanged = false;
         Coroutine dataCollectionCoroutine;
 
         ExerciseSceneControl sceneControl;
@@ -66,25 +69,9 @@ namespace ErrorCorrection
                 previousClusterCenter = relativePosition;
                 previousHandPosition = relativePosition;
                 positions.Add(previousHandPosition);
+                previousActiveHand = hand;
 
                 StartDataCollection(relativePosition, hand, exerciseInfo);
-            }
-        }
-
-        public void UpdateMeasurement(Vector3 cameraPosition, Vector3 handPosition, string hand, ExerciseInfo exerciseInfo)
-        {
-            // Data Collection Initialization
-            if (data == null)
-            {
-                // Camera
-                previousCameraPosition = cameraPosition;
-
-                initialHandPosition = handPosition;
-                previousClusterCenter = handPosition;
-                previousHandPosition = handPosition;
-                positions.Add(previousHandPosition);
-
-                StartDataCollection(handPosition, hand, exerciseInfo);
             }
         }
 
@@ -137,7 +124,7 @@ namespace ErrorCorrection
             Debug.Log("scene position y:" + sceneControl.tableTop.transform.position.z);
             Debug.Log("dimension x:" + dimensions.x / 200f);
             Debug.Log("dimension y:" + dimensions.y / 200f);
-            xImage.Add((int)(x * 1000));
+            xImage.Add((int)(x * 1000f));
             yImage.Add((int)(y * 1000f));
 
             // Preparing for image creation
@@ -222,37 +209,71 @@ namespace ErrorCorrection
             //System.IO.File.WriteAllBytes(Application.dataPath + "/Resources/SavedScreen.png", bytes);
         }
 
-        public float NewValue(Vector3 cameraPosition, Vector3 handPosition)
+        public float NewValue(Vector3 cameraPosition, Vector3 handPosition, string activeHand)
         {
             float distance = Vector3.Distance(cameraPosition, handPosition);
 
             // HAND ROTATION
             Vector3 currentHandPos = handPosition;
-            positions.Add(currentHandPos);
-
-            // LMC DISTANCE
-            //Debug.Log("NOT CORRECTED");
-            //Debug.Log("Previous hand position: " + previousHandPosition);
-            //Debug.Log("current hand position: " + previousHandPosition);
             notCorrectedDistance += Vector3.Distance(previousHandPosition, currentHandPos);
 
-            // FIXING THE VALUE - 1. filtering, 2. functioning, 3. radius clustering
-            Vector3 lowPassFiltrated = lowPassFilter.Filtrate(positions);
-            Vector3 localHandPos = lowPassFiltrated - initialHandPosition;
-            Vector3 diff = lowPassFiltrated - previousHandPosition;
+            Vector3 finalPosition;
 
-            
-
-            Vector3 final = finalRadiusClustering.UpdateMeasurement(lowPassFiltrated, distance);
-            if (final != new Vector3())
+            // HAND IS THE SAME
+            if(previousActiveHand.Equals(activeHand))
             {
-                /*Debug.Log("CORRECTED");
-                Debug.Log("PREVIOUS HAND POSITION: " + previousHandPosition);
-                Debug.Log("PREVIOUS CLUSTER CENTRE: " + previousClusterCenter);
-                Debug.Log("RADIUS CLUSTERED: " + final);*/
-                correctedDistance += Vector3.Distance(previousClusterCenter, final);
-                previousClusterCenter = final;
+                positions.Add(currentHandPos);
+
+                // FIXING THE VALUE - 1. filtering, 2. radius clustering
+                Vector3 lowPassFiltrated;
+                if (handChanged)
+                    lowPassFiltrated = lowPassFilter.Filtrate(positions, positions[positions.Count - 2]);
+                else
+                    lowPassFiltrated = lowPassFilter.Filtrate(positions);
+
+                finalPosition = finalRadiusClustering.UpdateMeasurement(currentHandPos, distance);
+
+                if (finalPosition != new Vector3())
+                {
+                    if (handChanged)
+                    {
+                        Debug.LogError("RIESIM ZMENENU RUKU");
+                        previousClusterCenter = finalPosition;
+                        handChanged = false;
+                    }
+                    else
+                    {
+                        Debug.Log("NEZMENENA RUKA");
+                        Debug.Log("vzdialenost: " + Vector3.Distance(previousClusterCenter, finalPosition));
+                        correctedDistance += Vector3.Distance(previousClusterCenter, finalPosition);
+                        previousDistance += Vector3.Distance(previousClusterCenter, finalPosition);
+
+                        previousClusterCenter = finalPosition;
+                    }
+                }
             }
+            // HAND CHANGED
+            else
+            {
+                Debug.LogError("HAND CHANGED");
+                positions.Clear();
+                positions.Add(currentHandPos);
+
+                Debug.Log("pocet pozicii: " + positions.Count);
+
+                finalPosition = finalRadiusClustering.UpdateMeasurement(currentHandPos, distance);
+
+                handChanged = true;
+
+                if (finalPosition != new Vector3())
+                {
+                    Debug.Log("vzdialenost predosleho rozdielu: " + Vector3.Distance(previousClusterCenter, finalPosition));
+                    correctedDistance += Vector3.Distance(previousClusterCenter, finalPosition);
+                    previousDistance += Vector3.Distance(previousClusterCenter, finalPosition);
+                }
+            }
+
+            previousActiveHand = activeHand;
 
             string[] dataTemp2 = new string[7];
             dataTemp2[0] = data.Count.ToString();
@@ -266,22 +287,17 @@ namespace ErrorCorrection
 
             float x = Mathf.Abs(handPosition.x - sceneControl.tableTop.transform.position.x + dimensions.x / 2000f);
             float y = Mathf.Abs(handPosition.z - sceneControl.tableTop.transform.position.z + dimensions.y / 2000f);
-            //float x = Mathf.Abs(handPosition.x - dimensions.x / 2);
-            //float y = Mathf.Abs(handPosition.z - dimensions.y / 2);
-            //float x = Mathf.Abs(handPosition.x + dimensions.x / 2);
-            //float y = Mathf.Abs(handPosition.z + dimensions.y / 2);
-            Debug.Log("position x:" + handPosition.x);
+
+            /*Debug.Log("position x:" + handPosition.x);
             Debug.Log("position y:" + handPosition.z);
             Debug.Log("scene position x:" + sceneControl.tableTop.transform.position.x);
             Debug.Log("scene position y:" + sceneControl.tableTop.transform.position.z);
             Debug.Log("dimension x:" + dimensions.x / 200f);
-            Debug.Log("dimension y:" + dimensions.y / 200f);
+            Debug.Log("dimension y:" + dimensions.y / 200f);*/
+
             xImage.Add((int)(x * 1000));
             yImage.Add((int)(y * 1000));
             texture.SetPixel(xImage[xImage.Count - 1], yImage[yImage.Count - 1], Color.black);
-
-            //Debug.Log("not corrected distance: " + notCorrectedDistance);
-            //Debug.Log("corrected distance: " + correctedDistance);
 
             // camera
             previousCameraPosition = cameraPosition;
@@ -290,91 +306,6 @@ namespace ErrorCorrection
             previousHandPosition = handPosition;
 
             return correctedDistance;
-        }
-
-        IEnumerator CollectData()
-        {
-            do
-            {
-                yield return new WaitForEndOfFrame();
-
-                Debug.Log("v data collection");
-                IList<OVRBone> bones;
-                OVRHand hand;
-                if (sceneControl.isLeftActive)
-                {
-                    bones = HandsManager.Instance.LeftHandSkeleton.Bones;
-                    hand = HandsManager.Instance.LeftHand;
-                }
-                else
-                {
-                    bones = HandsManager.Instance.RightHandSkeleton.Bones;
-                    hand = HandsManager.Instance.RightHand;
-                }
-                if (!hand.IsTracked)
-                {
-                    yield return null;
-                }
-
-                Debug.Log("tady");
-
-                Vector3 position = (bones[1].Transform.position + bones[10].Transform.position) / 2f;
-                positions.Add(position);
-
-                float cameraDistance = Vector3.Distance(Camera.main.transform.position, position);
-
-                notCorrectedDistance += Vector3.Distance(previousHandPosition, position);
-
-                // FIXING THE VALUE - 1. filtering, 2. radius clustering
-                Vector3 lowPassFiltered = lowPassFilter.Filtrate(positions);
-
-                Vector3 final = finalRadiusClustering.UpdateMeasurement(lowPassFiltered, cameraDistance);
-                if (final != new Vector3())
-                {
-                    correctedDistance += Vector3.Distance(previousClusterCenter, final);
-                    previousClusterCenter = final;
-
-                    // LOG DATA
-                    // FINISH
-                    /*float x = Mathf.Abs(final.x - sceneControl.workspace.transform.position.x + 0.2f);
-                    float y = Mathf.Abs(final.z - sceneControl.workspace.transform.position.z + 0.15f);
-                    xImage.Add((int)(x * 1000));
-                    yImage.Add((int)(y * 1000));*/
-
-                    // IMAGE
-                    // FINISH
-                    //texture.SetPixel(xImage[xImage.Count - 1], yImage[yImage.Count - 1], Color.black);
-                }
-
-                string[] dataTemp2 = new string[6];
-                dataTemp2[0] = data.Count.ToString();
-                // FINISH
-                /*dataTemp2[1] = (final.x - sceneControl.workspace.transform.position.x - 0.2f).ToString();
-                dataTemp2[2] = (final.y - sceneControl.workspace.transform.position.y - 0.15f).ToString();
-                dataTemp2[3] = (final.z - sceneControl.workspace.transform.position.z - 0.15f).ToString();*/
-                dataTemp2[1] = (final.x).ToString();
-                dataTemp2[2] = (final.y).ToString();
-                dataTemp2[3] = (final.z).ToString();
-                dataTemp2[4] = sceneControl.isLeftActive ? "L" : "R";
-                dataTemp2[5] = notCorrectedDistance.ToString();
-                dataTemp2[6] = correctedDistance.ToString();
-                data.Add(dataTemp2);
-
-                // FINISH
-                /*sceneControl.leftHandDistanceText.text = "LMC Dist: " + ((Mathf.Round(LMCdist * 100)) / 100.0).ToString() + " m";
-                sceneControl.SetDistance(((Mathf.Round(fixedDist * 100)) / 100.0).ToString());*/
-                //sceneControl.rightHandDistanceText.text = "Distance: " + ((Mathf.Round(fixedDist * 100)) / 100.0).ToString() + " m";
-                Debug.Log("not corrected distance: " + notCorrectedDistance);
-                Debug.Log("corrected distance: " + correctedDistance);
-
-                // camera
-                previousCameraPosition = Camera.main.transform.position;
-
-                // left hand
-                previousHandPosition = position;
-
-                //Debug.Log("beriem data z frame");
-            } while (true);
         }
     }
 }

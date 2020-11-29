@@ -46,8 +46,11 @@ public class ExerciseSceneControl : MonoBehaviour {
     Vector3 previousHandPosition = Vector3.zero;
     bool alternateHands;
 
+    private bool startedComputing = false;
+
     private bool started = false;
     public bool isLeftActive = false;
+    public bool isLeftComputing = false;
     private bool cylinderInScene = false;
     private bool countingDistanceForLeft = true;
     private int numOfPoints = 0;
@@ -152,20 +155,13 @@ public class ExerciseSceneControl : MonoBehaviour {
             gameCoroutine = StartCoroutine(Game());
         }
 
-        if (gameCoroutine != null)
+        if (gameCoroutine != null && startedComputing)
         {
             (var left, var right) = GetHandsPosition();
-            var position = isLeftActive ? left : right;
-            float correctedDistance = errorCorrection.NewValue(Camera.main.transform.position, position);
+            var position = isLeftComputing ? left : right;
+            float correctedDistance = errorCorrection.NewValue(Camera.main.transform.position, position, isLeftComputing ? "L" : "R");
             SetCorrectedDistance(correctedDistance);
-        }
-
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SceneManager.LoadScene(0);
-        }
-       
+        }       
     }
 
     private void SetCorrectedDistance(float distance)
@@ -175,6 +171,32 @@ public class ExerciseSceneControl : MonoBehaviour {
 
     private void CreateCylinder()
     {
+        if (exerciseInfo.fixedExerciseLength && score >= exerciseInfo.numberOfPoints)
+        {
+            errorCorrection.StopDataCollection();
+            if (gameCoroutine != null)
+            {
+                StopCoroutine(gameCoroutine);
+                gameCoroutine = null;
+            }
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            //errorCorrection.StopDataCollection(markerFrames);
+            //StartCoroutine(WaitAndGoToNextScene());
+        }
+
+        if (!startedComputing)
+        {
+            isLeftComputing = isLeftActive;
+
+            (var left, var right) = GetHandsPosition();
+            var position = isLeftComputing ? left : right;
+            errorCorrection.UpdateMeasurement(position, isLeftComputing ? "L" : "R", exerciseInfo);
+            startedComputing = true;
+        }
+        else if(alternateHands)
+            isLeftComputing = !isLeftComputing;
+
         Debug.Log("CREATING CYLINDER");
         if (!verticalGame)
         {
@@ -265,7 +287,7 @@ public class ExerciseSceneControl : MonoBehaviour {
             SceneLoader.LoadNextScene();
         }*/
 
-        if (exerciseInfo.fixedExerciseLength && score >= exerciseInfo.numberOfPoints)
+        /*if (exerciseInfo.fixedExerciseLength && score >= exerciseInfo.numberOfPoints)
         {
             errorCorrection.StopDataCollection();
             if(gameCoroutine != null)
@@ -277,7 +299,7 @@ public class ExerciseSceneControl : MonoBehaviour {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             //errorCorrection.StopDataCollection(markerFrames);
             //StartCoroutine(WaitAndGoToNextScene());
-        }
+        }*/
 
         Destroy(cylinder);
     }
@@ -293,10 +315,6 @@ public class ExerciseSceneControl : MonoBehaviour {
         {
             isLeftActive = exerciseInfo.selectedHand == SelectedHand.LeftHand ? true : false;
         }
-
-        (var left, var right) = GetHandsPosition();
-        var position = isLeftActive ? left : right;
-        errorCorrection.UpdateMeasurement(position, "L", exerciseInfo);
 
         //StartCoroutine(HandTranslationCoroutine());
         //StartCoroutine(ControlCues());

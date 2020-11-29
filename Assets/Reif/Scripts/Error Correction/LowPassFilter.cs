@@ -75,6 +75,25 @@ namespace ErrorCorrection
         }
 
         /// <summary>
+        /// Passes current position, if the distance between current position and previous
+        /// position is smaller than threshold. If it is higher, it returns altered current position.
+        /// </summary>
+        /// <remarks>
+        /// !!! Only used in case of hand change !!!
+        /// </remarks>
+        /// <returns>
+        /// Filtered current position.
+        /// </returns>
+        /// <param name="positions">List of positions representing hand position over time</param>
+        /// <param name="previousPosition">Sets previous position manually</param>
+        public Vector3 Filtrate(List<Vector3> positions, Vector3 previousPosition)
+        {
+            this.previousPosition = previousPosition;
+
+            return Filtrate(positions);
+        }
+
+        /// <summary>
         /// Recalculates threshold to adjust it to decreasing or increasing distances in previous
         /// and current positions.
         /// </summary>

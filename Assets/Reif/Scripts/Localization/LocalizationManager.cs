@@ -23,12 +23,6 @@ public class LocalizationManager: MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.C))
-            ChangeLocalizationLanguage();
-    }
-
     /// <summary>
     /// When triggered by Change language button, it loads next file in a localization files list.
     /// </summary>

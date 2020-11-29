@@ -13,7 +13,7 @@ public class LocalizedText: MonoBehaviour {
 
     private void Start() => Initialize();
 
-    private void OnDestroy() => localizationLanguage.OnLanguageChanged -= OnLanguageChanged;
+    public void OnDestroy() => localizationLanguage.OnLanguageChanged -= OnLanguageChanged;
 
     private void Initialize()
     {
@@ -30,10 +30,6 @@ public class LocalizedText: MonoBehaviour {
     private void SetText()
     {
         var value = localizationLanguage.GetLocalizedValue(key);
-
-        // Dirty fix for segmented control
-        if (this == null)
-            return;
 
         if (GetComponent<TextMeshPro>())
             GetComponent<TextMeshPro>().text = value;

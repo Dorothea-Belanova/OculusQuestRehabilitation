@@ -24,10 +24,13 @@ public class SegmentedControl: MonoBehaviour {
 
     public event Action<SelectedHand> OnValueChanged;
 
+    private LocalizedText[] localizedTexts;
+
     public void Awake() {
         float segmentWidth = 1f / segments.Length;
+        localizedTexts = new LocalizedText[segments.Length];
 
-        for(int i = 0; i < segments.Length; ++i) {
+        for (int i = 0; i < segments.Length; ++i) {
             GameObject button = new GameObject();
             button.name = "Button" + ((i > 0) ? ( " (" + i.ToString() + ")") : "");
             button.transform.parent = this.transform;
@@ -39,10 +42,10 @@ public class SegmentedControl: MonoBehaviour {
             button.GetComponent<RectTransform>().anchorMin = new Vector2(i * segmentWidth, 0);
             button.GetComponent<RectTransform>().anchorMax = new Vector2((i + 1) * segmentWidth, 1);
 
-            // next two are needed if world canvas
+            // Two following two lines are needed if world canvas
             button.GetComponent<RectTransform>().localPosition = Vector3.zero;
-            button.GetComponent<RectTransform>().SetZero();
             button.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+            button.GetComponent<RectTransform>().SetZero();
             
             button.GetComponent<RectTransform>().SetSiblingIndex(i);
             button.GetComponent<Button>().onClick.AddListener(delegate { OnPressed(button); });
@@ -54,11 +57,9 @@ public class SegmentedControl: MonoBehaviour {
             text.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0);
             text.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
 
-            // next two are needed if world canvas
+            // Two following two lines are needed if world canvas
             text.GetComponent<RectTransform>().localPosition = Vector3.zero;
             text.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-            //SetAndStretchToParentSize(text.GetComponent<RectTransform>(), button.GetComponent<RectTransform>());
-            //text.GetComponent<RectTransform>().SetZero();
 
             text.AddComponent<TextMeshProUGUI>();
             text.GetComponent<TextMeshProUGUI>().text = segments[i];
@@ -67,25 +68,32 @@ public class SegmentedControl: MonoBehaviour {
             text.GetComponent<TextMeshProUGUI>().color = normalTextColor;
             text.GetComponent<TextMeshProUGUI>().alignment = alignment;
 
-            // it has to be here because TMPro text stretches the dimensions
+            // It has to be here because TMPro text stretches the dimensions
             text.GetComponent<RectTransform>().SetZero();
 
             if (supportsLocalization)
             {
                 text.AddComponent<LocalizedText>();
                 text.GetComponent<LocalizedText>().SetLocalizationValues(segmentsTranslationKeywords[i], localizationLanguage);
+                localizedTexts[i] = text.GetComponent<LocalizedText>();
             }
         }
     }
 
+    private void OnDestroy()
+    {
+        if (supportsLocalization)
+        {
+            for (int i = 0; i < segments.Length; ++i)
+                localizedTexts[i].OnDestroy();
+        }
+    }
+
     private void OnPressed(GameObject gameObject) {
-        Debug.Log("PRESSED!");
         int index = gameObject.GetComponent<RectTransform>().GetSiblingIndex();
 
-        Debug.Log("selected: " + gameObject);
-        if(selected != -1) {
+        if(selected != -1)
             ChangeColors(selected, normalColor, normalTextColor);
-        }
 
         selected = index;
         ChangeColors(selected, selectedColor, selectedTextColor);

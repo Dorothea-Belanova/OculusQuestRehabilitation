@@ -31,6 +31,10 @@ public class LocalizedText: MonoBehaviour {
     {
         var value = localizationLanguage.GetLocalizedValue(key);
 
+        // Dirty fix for segmented control
+        if (this == null)
+            return;
+
         if (GetComponent<TextMeshPro>())
             GetComponent<TextMeshPro>().text = value;
         else if (GetComponent<TextMeshProUGUI>())

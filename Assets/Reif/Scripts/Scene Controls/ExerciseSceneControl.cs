@@ -159,6 +159,13 @@ public class ExerciseSceneControl : MonoBehaviour {
             float correctedDistance = errorCorrection.NewValue(Camera.main.transform.position, position);
             SetCorrectedDistance(correctedDistance);
         }
+
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene(0);
+        }
+       
     }
 
     private void SetCorrectedDistance(float distance)

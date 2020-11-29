@@ -16,8 +16,17 @@ public class LocalizationManager: MonoBehaviour
             ChangeLocalizationLanguage();
         });
 
-        BetterStreamingAssets.Initialize();
-        LoadLocalizationData(localizationFiles[localizationIndex]);
+        if (!currentLocalizationLanguage.IsLoaded())
+        {
+            BetterStreamingAssets.Initialize();
+            LoadLocalizationData(localizationFiles[localizationIndex]);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+            ChangeLocalizationLanguage();
     }
 
     /// <summary>

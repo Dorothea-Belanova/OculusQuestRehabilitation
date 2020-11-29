@@ -42,6 +42,14 @@ public class InitialSceneControl : MonoBehaviour {
         afterHandSelectionLabelGroup.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+    }
+
     /// <summary>
     /// Initializes UI elements - sliders and input fields - with proper values
     /// </summary>

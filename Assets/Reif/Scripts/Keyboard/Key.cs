@@ -12,18 +12,31 @@ public class Key : MonoBehaviour {
     public void Awake() {
         keyboard = GameObject.FindGameObjectWithTag("Keyboard").GetComponent<Keyboard>();
 
-        if (this.GetComponentsInChildren<Text>().Length > 0) {
-            this.GetComponentInChildren<Text>().text = this.name.ToLower();
+        /*if (this.GetComponentsInChildren<TextMeshProUGUI>().Length > 0) {
+            this.GetComponentInChildren<TextMeshProUGUI>().text = this.name.ToLower();
 
-            if(keyType == KeyType.Letter && this.GetComponentInChildren<Text>().text.Length < 2)
+            if(keyType == KeyType.Letter)
                 keyboard.OnCapslockToggle += ChangeLetter;
         }
         else
         {
             this.GetComponentInChildren<TextMeshProUGUI>().text = this.name.ToLower();
-        }
+        }*/
 
-        this.GetComponent<Button>().onClick.AddListener(delegate {
+        if (keyType == KeyType.Letter)
+            keyboard.OnCapslockToggle += ChangeLetter;
+
+        GetComponent<Button>().onClick.AddListener(delegate {
+            Clicked();
+        });
+    }
+
+    private void OnDestroy()
+    {
+        if (keyType == KeyType.Letter)
+            keyboard.OnCapslockToggle -= ChangeLetter;
+
+        GetComponent<Button>().onClick.RemoveListener(delegate {
             Clicked();
         });
     }
@@ -34,7 +47,7 @@ public class Key : MonoBehaviour {
                 keyboard.AddCharacter(" ");
                 break;
             case KeyType.Letter:
-                keyboard.AddCharacter(this.GetComponentInChildren<Text>().text);
+                keyboard.AddCharacter(this.GetComponentInChildren<TextMeshProUGUI>().text);
                 break;
             case KeyType.Uppercase:
                 keyboard.CapslockToggle();
@@ -53,9 +66,9 @@ public class Key : MonoBehaviour {
 
     public void ChangeLetter() {
         if(keyboard.isCapsOn)
-            this.GetComponentInChildren<Text>().text = this.GetComponentInChildren<Text>().text.ToUpper();
+            this.GetComponentInChildren<TextMeshProUGUI>().text = this.GetComponentInChildren<TextMeshProUGUI>().text.ToUpper();
         else
-            this.GetComponentInChildren<Text>().text = this.GetComponentInChildren<Text>().text.ToLower();
+            this.GetComponentInChildren<TextMeshProUGUI>().text = this.GetComponentInChildren<TextMeshProUGUI>().text.ToLower();
     }
 }
 

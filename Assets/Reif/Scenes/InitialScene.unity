@@ -563,6 +563,19 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 312432759}
+    - target: {fileID: 1719882839, guid: e509ade572f7e4749a68aa2837287899, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448077756373, guid: e509ade572f7e4749a68aa2837287899, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244763691711322990, guid: e509ade572f7e4749a68aa2837287899,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1244763692273171358, guid: e509ade572f7e4749a68aa2837287899,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -577,6 +590,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Exercise Settings Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244763692655284065, guid: e509ade572f7e4749a68aa2837287899,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1244763692655284092, guid: e509ade572f7e4749a68aa2837287899,
         type: 3}
@@ -687,6 +705,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244763692658366765, guid: e509ade572f7e4749a68aa2837287899,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244763692945653517, guid: e509ade572f7e4749a68aa2837287899,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244763693328493185, guid: e509ade572f7e4749a68aa2837287899,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1926933263663210704, guid: e509ade572f7e4749a68aa2837287899,
         type: 3}
@@ -1563,6 +1596,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 303986153, guid: 46b7e631bc57d1145aadd24b8a39c544, type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303986153, guid: 46b7e631bc57d1145aadd24b8a39c544, type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303986153, guid: 46b7e631bc57d1145aadd24b8a39c544, type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303986153, guid: 46b7e631bc57d1145aadd24b8a39c544, type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303986153, guid: 46b7e631bc57d1145aadd24b8a39c544, type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1229112287305075170, guid: 46b7e631bc57d1145aadd24b8a39c544,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1621,7 +1674,7 @@ PrefabInstance:
     - target: {fileID: 1229112287305075170, guid: 46b7e631bc57d1145aadd24b8a39c544,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2.25
+      value: 2.371
       objectReference: {fileID: 0}
     - target: {fileID: 1229112287305075170, guid: 46b7e631bc57d1145aadd24b8a39c544,
         type: 3}

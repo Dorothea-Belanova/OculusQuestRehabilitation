@@ -33,6 +33,8 @@ public class InitialSceneControl : MonoBehaviour {
     /// of SliderInputFieldTMProPanel are not instantiated yet.
     /// </remarks>
     private void Start() {
+        exerciseInfo.Reset();
+
         InitializeUIElements();
         AddListeners();
 
@@ -116,6 +118,7 @@ public class InitialSceneControl : MonoBehaviour {
 
     public void OnPatientIDInputClicked()
     {
+        patientIDInputField.text = exerciseInfo.patientID;
         patientIDInputField.interactable = false;
         isKeyboardOn = true;
         keyboardCanvas.SetActive(true);
@@ -125,6 +128,7 @@ public class InitialSceneControl : MonoBehaviour {
     {
         patientIDInputField.interactable = true;
         patientIDInputField.text = patientID;
+        exerciseInfo.patientID = patientID;
         keyboardCanvas.SetActive(false);
         isKeyboardOn = false;
         HandleContinueButtonInteractivity();
@@ -170,14 +174,7 @@ public class InitialSceneControl : MonoBehaviour {
     }
 
     private void SetNumberOfPointsSlider() {
-        /*Debug.Log("VYPOCET:");
-        Debug.Log("hand max: " + maxHandDistanceSlider.value);
-        Debug.Log("margin: " + CALCULATION_MARGIN);
-        Debug.Log("length: " + exerciseLengthSlider.value * 10);
-        Debug.Log("min: " + (exerciseLengthSlider.value * 10) / (maxHandDistanceSlider.value - CALCULATION_MARGIN));
-        Debug.Log("max: " + (exerciseLengthSlider.value * 10) / (MIN_DISTANCE + CALCULATION_MARGIN));*/
         float difference = (maxHandDistancePanel.slider.value - Constants.MIN_HAND_DISTANCE) / 3f;
-        Debug.Log("DIFFERENCE: " + difference);
         int min = (int)Math.Ceiling((exerciseLengthPanel.slider.value * Constants.EXERCISE_LENGTH_STEP) / (maxHandDistancePanel.slider.value - difference));
         int max = (int)Math.Floor((exerciseLengthPanel.slider.value * Constants.EXERCISE_LENGTH_STEP) / (Constants.MIN_HAND_DISTANCE + difference));
 
@@ -197,11 +194,7 @@ public class InitialSceneControl : MonoBehaviour {
 
         if(selectedHand == SelectedHand.BothHands) {
             if(min == max && !min.IsEven()) {
-                Debug.Log("tu som");
                 errorOccurred = true;
-                if(errorOccurred) {
-                    Debug.Log("vnorene");
-                }
             }
             else if(min != max) {
                 if(!min.IsEven()) {
@@ -222,22 +215,14 @@ public class InitialSceneControl : MonoBehaviour {
                 }
             }
             if(!errorOccurred) {
-                Debug.Log("DELIM DVOMI");
                 min /= 2;
                 max /= 2;
             }
         }
 
-        Debug.Log("EROR OCCURRED: " + errorOccurred);
         NumberOfPointsErrorOccurred(errorOccurred);
-
-        Debug.Log("min: " + min);
-        Debug.Log("max: " + max);
         Limits limits = new Limits(min, max);
 
-        Debug.Log("OVERENIE: ");
-        Debug.Log("min: " + limits.min);
-        Debug.Log("max: " + limits.max);
         SetLimitsOnSlider(numberOfPointsPanel.slider, limits);
         SetInputFieldValue(numberOfPointsPanel, (selectedHand == SelectedHand.BothHands && !errorOccurred) ? 2 : 1);
         HandleContinueButtonInteractivity();

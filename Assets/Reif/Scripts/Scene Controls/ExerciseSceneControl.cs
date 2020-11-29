@@ -116,13 +116,11 @@ public class ExerciseSceneControl : MonoBehaviour {
             do
             {
                 ++trialIndex;
-                Debug.Log("TRIAL INDEX: " + trialIndex);
                 distances = PointRandomizer.GenerateDistances(min, max, length, points);
             } while (distances == null && trialIndex < 10);
 
             if(distances == null && trialIndex >= 10)
             {
-                Debug.Log("VYTVARAM SAMA");
                 for (int i = 0; i < points; ++i)
                     distances[i] = length / (float)points;
             }
@@ -135,7 +133,6 @@ public class ExerciseSceneControl : MonoBehaviour {
                     Debug.Log("i: " + i);
                     newDistances[i * 2] = distances[i];
                     newDistances[i * 2 + 1] = distances[i];
-                    Debug.Log("managed");
                 } 
                 distances = newDistances;
             }

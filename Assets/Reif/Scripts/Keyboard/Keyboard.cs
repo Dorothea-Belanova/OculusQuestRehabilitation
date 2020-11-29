@@ -17,6 +17,7 @@ public class Keyboard: MonoBehaviour {
 
     public void Awake() {
         Debug.Log("tu som");
+        inputField.text = "";
 
         sceneControl = GameObject.FindGameObjectWithTag("SceneControl").GetComponent<InitialSceneControl>();
     }

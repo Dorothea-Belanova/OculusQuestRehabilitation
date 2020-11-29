@@ -42,7 +42,7 @@ public static class PointRandomizer {
 
         Vector3 point;
         float angle = Random.Range(minAngle + minAngleSubstraction, maxAngle - maxAngleSubstraction);
-        float radians = (angle * Mathf.PI) / 180.0f;
+        float radians = (angle * Mathf.PI) / 180f;
         point.x = initialPosition.x + Mathf.Cos(radians) * distance;
         point.z = initialPosition.z + Mathf.Sin(radians) * distance;
         point.y = initialPosition.y;
@@ -51,14 +51,10 @@ public static class PointRandomizer {
 
     public static float[] GenerateDistances(float min, float max, float length, int points) {
         float sum = 0f;
-        float cMin = min;
-        float cMax = max;
+        float cMin;
+        float cMax;
 
         float[] distances = new float[points];
-        Debug.Log("length: " + length);
-        Debug.Log("points: " + points);
-        Debug.Log("min: " + min);
-        Debug.Log("min: " + max);
 
         for (int i = 0; i < points - 1; ++i)
         {
@@ -75,10 +71,14 @@ public static class PointRandomizer {
         if (lastDistance > max || lastDistance < min)
         {
             Debug.Log("PROBLEM: ");
+            Debug.Log("Length: " + length);
+            Debug.Log("Points: " + points);
+            Debug.Log("Min: " + min);
+            Debug.Log("Max: " + max);
+
             for (int i = 0; i < points; ++i)
-            {
                 Debug.Log(i + ": " + distances[i]);
-            }
+
             return null;
         }
         else

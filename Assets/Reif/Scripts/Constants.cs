@@ -22,7 +22,7 @@
 
     public static Limits VERTICAL_GAME_HEIGHT_LIMITS = new Limits(15f, 40f); // with step 1 cm
 
-    public static Limits MAX_HAND_DISTANCE_LIMITS = new Limits(35f, 85f); // with step 1 cm
+    public static Limits MAX_HAND_DISTANCE_LIMITS = new Limits(35f, 70f); // with step 1 cm
 
     public static Limits EXERCISE_LENGTH_LIMITS = new Limits(12f, 100f); // with step 10 cm - EXERCISE_LENGTH_STEP
 }

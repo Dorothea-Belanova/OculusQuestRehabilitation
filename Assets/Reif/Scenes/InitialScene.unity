@@ -555,46 +555,6 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2082228579}
-    - target: {fileID: 1191115975, guid: e509ade572f7e4749a68aa2837287899, type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnPatientIDInputClicked
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461697402, guid: e509ade572f7e4749a68aa2837287899, type: 3}
-      propertyPath: m_Delegates.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461697402, guid: e509ade572f7e4749a68aa2837287899, type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2082228579}
-    - target: {fileID: 1470178061, guid: e509ade572f7e4749a68aa2837287899, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1470178061, guid: e509ade572f7e4749a68aa2837287899, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1470178061, guid: e509ade572f7e4749a68aa2837287899, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1470178061, guid: e509ade572f7e4749a68aa2837287899, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 142122643}
-    - target: {fileID: 1470178061, guid: e509ade572f7e4749a68aa2837287899, type: 3}
-      propertyPath: m_Colors.m_PressedColor.r
-      value: 0.6132076
-      objectReference: {fileID: 0}
-    - target: {fileID: 1470178061, guid: e509ade572f7e4749a68aa2837287899, type: 3}
-      propertyPath: m_Colors.m_PressedColor.g
-      value: 0.5958527
-      objectReference: {fileID: 0}
-    - target: {fileID: 1470178061, guid: e509ade572f7e4749a68aa2837287899, type: 3}
-      propertyPath: m_Colors.m_PressedColor.b
-      value: 0.5958527
-      objectReference: {fileID: 0}
     - target: {fileID: 1719882839, guid: e509ade572f7e4749a68aa2837287899, type: 3}
       propertyPath: m_Material
       value: 
@@ -603,10 +563,6 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 312432759}
-    - target: {fileID: 2069785232, guid: e509ade572f7e4749a68aa2837287899, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1244763692273171358, guid: e509ade572f7e4749a68aa2837287899,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -732,11 +688,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1244763693106448170, guid: e509ade572f7e4749a68aa2837287899,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1926933263663210704, guid: e509ade572f7e4749a68aa2837287899,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -765,46 +716,6 @@ PrefabInstance:
     - target: {fileID: 3344640317128561721, guid: e509ade572f7e4749a68aa2837287899,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8176272704897295285, guid: e509ade572f7e4749a68aa2837287899,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8176272704897295285, guid: e509ade572f7e4749a68aa2837287899,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8176272704897295285, guid: e509ade572f7e4749a68aa2837287899,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8176272704897295285, guid: e509ade572f7e4749a68aa2837287899,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830550441673973187, guid: e509ade572f7e4749a68aa2837287899,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830550441673973187, guid: e509ade572f7e4749a68aa2837287899,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830550441673973187, guid: e509ade572f7e4749a68aa2837287899,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830550441673973187, guid: e509ade572f7e4749a68aa2837287899,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2559,7 +2470,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patientIDInputField: {fileID: 1191115976}
   verticalGamePanel: {fileID: 1750233035}
-  segmentedControl: {fileID: 605342866}
+  handSelectionSegmentedControl: {fileID: 605342866}
   afterHandSelectionGroup: {fileID: 605342877}
   afterHandSelectionLabelGroup: {fileID: 605342882}
   maxHandDistancePanel: {fileID: 59474209}

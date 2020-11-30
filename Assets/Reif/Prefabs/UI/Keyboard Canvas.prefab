@@ -722,7 +722,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac27902eb70b4d74d9da9dff840f0379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localizationLanguage: {fileID: 0}
+  localizationLanguage: {fileID: 11400000, guid: 529132ac9f2db53448ddd24906f842bc,
+    type: 2}
   key: patientID
 --- !u!1001 &3981845239009232972
 PrefabInstance:
@@ -731,10 +732,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1229112287305075170}
     m_Modifications:
+    - target: {fileID: 528159518, guid: 2c156d204359c84469c0db4e25948877, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 528159518, guid: 2c156d204359c84469c0db4e25948877, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 807874917, guid: 2c156d204359c84469c0db4e25948877, type: 3}
       propertyPath: inputField
       value: 
       objectReference: {fileID: 2643802095135253824}
+    - target: {fileID: 1301284098301029459, guid: 2c156d204359c84469c0db4e25948877,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1301284098301029459, guid: 2c156d204359c84469c0db4e25948877,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8225039700435616458, guid: 2c156d204359c84469c0db4e25948877,
         type: 3}
       propertyPath: m_LocalPosition.x

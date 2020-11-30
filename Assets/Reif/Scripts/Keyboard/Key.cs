@@ -31,7 +31,7 @@ public class Key : MonoBehaviour {
         });
     }
 
-    private void OnDestroy()
+    /*private void OnDestroy()
     {
         if (keyType == KeyType.Letter)
             keyboard.OnCapslockToggle -= ChangeLetter;
@@ -39,15 +39,18 @@ public class Key : MonoBehaviour {
         GetComponent<Button>().onClick.RemoveListener(delegate {
             Clicked();
         });
-    }
+    }*/
 
     public void Clicked() {
+        Debug.Log("KEYCODE: " + keyType);
+
         switch (keyType) {
             case KeyType.Space:
                 keyboard.AddCharacter(" ");
                 break;
             case KeyType.Letter:
                 keyboard.AddCharacter(this.GetComponentInChildren<TextMeshProUGUI>().text);
+                Debug.Log("LETTER: " + this.GetComponentInChildren<TextMeshProUGUI>().text);
                 break;
             case KeyType.Uppercase:
                 keyboard.CapslockToggle();

@@ -10,33 +10,31 @@ namespace ErrorCorrection
         private Vector3 previousCameraPosition;
         private Vector3 initialHandPosition;
 
-        List<string[]> data;
-        List<Vector3> positions;
-        Vector2 dimensions;
+        private List<string[]> data;
+        private List<Vector3> positions;
+        private Vector2 dimensions;
 
-        List<int> xImage = new List<int>();
-        List<int> yImage = new List<int>();
-        Texture2D texture;
+        private List<int> xImage = new List<int>();
+        private List<int> yImage = new List<int>();
+        private Texture2D texture;
 
-        LowPassFilter lowPassFilter;
-        MedianFilter medianFilter;
-        RadiusClustering finalRadiusClustering;
+        private LowPassFilter lowPassFilter;
+        private MedianFilter medianFilter;
+        private RadiusClustering finalRadiusClustering;
 
-        float correctedDistance = 0f;
-        float notCorrectedDistance = 0f;
-        float previousDistance = 0f;
-        string previousActiveHand;
-        bool handChanged = false;
-        Coroutine dataCollectionCoroutine;
+        private float correctedDistance = 0f;
+        private float notCorrectedDistance = 0f;
+        private string previousActiveHand;
+        private bool handChanged = false;
 
-        ExerciseSceneControl sceneControl;
-        ExerciseInfo exerciseInfo;
+        private ExerciseSceneControl sceneControl;
+        private ExerciseInfo exerciseInfo;
 
-        Vector3 leftInitial;
-        Vector3 rightInitial;
+        private Vector3 leftInitial;
+        private Vector3 rightInitial;
 
-        /// <param name="leftHandInitialPositions">List of left hand positions during calibration.</param>
-        /// <param name="righttHandInitialPositions">List of right hand positions during calibration.</param>
+        /// <param name="leftHandInitialPositions">List of left hand positions during calibration</param>
+        /// <param name="righttHandInitialPositions">List of right hand positions during calibration</param>
         public ErrorCorrectionManager(List<Vector3> leftHandInitialPositions, List<Vector3> rightHandInitialPositions)
         {
             sceneControl = GameObject.FindGameObjectWithTag("SceneControl").GetComponent<ExerciseSceneControl>();
@@ -49,11 +47,9 @@ namespace ErrorCorrection
             positions = new List<Vector3>();
         }
 
-        // Relative position: 
-        //float x = Mathf.Abs(logDataPreviousHandPositon.x - sceneControl.workspace.transform.position.x + 0.2f);
-        //float y = Mathf.Abs(logDataPreviousHandPositon.z - sceneControl.workspace.transform.position.z + 0.15f);
-
-        // dat ukladanie obrázka do exercise scene manager
+        /// <summary>
+        /// Starts initialization of parameters
+        /// </summary>
         public void UpdateMeasurement(Vector3 relativePosition, string hand, ExerciseInfo exerciseInfo)
         {
             // Data Collection Initialization
@@ -72,8 +68,9 @@ namespace ErrorCorrection
             }
         }
 
-        #region Data Collection Initialization
-
+        /// <summary>
+        /// Handles starting data collection
+        /// </summary>
         private void StartDataCollection(Vector3 position, string hand, ExerciseInfo exerciseInfo)
         {
             this.exerciseInfo = exerciseInfo;
@@ -86,7 +83,6 @@ namespace ErrorCorrection
             dataTemp[2] = "y";
             dataTemp[3] = "z";
             dataTemp[4] = "Hand";
-
             dataTemp[5] = "Not corrected";
             dataTemp[6] = "Total Distance";
             dataTemp[7] = "Start Time";
@@ -106,27 +102,15 @@ namespace ErrorCorrection
             dataTemp[8] = "";
             data.Add(dataTemp);
 
-            Debug.Log("VYPOCITANE: " + Mathf.FloorToInt((exerciseInfo.maxHandDistance + 0.1f) * 1000));
             dimensions = new Vector2(400, Mathf.FloorToInt((exerciseInfo.maxHandDistance + 0.1f) * 1000));
 
             float x = Mathf.Abs(position.x - sceneControl.tableTop.transform.position.x + dimensions.x / 2000f);
             float y = Mathf.Abs(position.z - sceneControl.tableTop.transform.position.z + dimensions.y / 2000f);
-            //float x = Mathf.Abs(position.x);
-            //float y = Mathf.Abs(position.z);
-            //float x = Mathf.Abs(position.x - dimensions.x / 2);
-            //float y = Mathf.Abs(position.z - dimensions.y / 2);
-            Debug.Log("position x:" + position.x);
-            Debug.Log("position y:" + position.z);
-            Debug.Log("scene position x:" + sceneControl.tableTop.transform.position.x);
-            Debug.Log("scene position y:" + sceneControl.tableTop.transform.position.z);
-            Debug.Log("dimension x:" + dimensions.x / 200f);
-            Debug.Log("dimension y:" + dimensions.y / 200f);
+
             xImage.Add((int)(x * 1000f));
             yImage.Add((int)(y * 1000f));
 
-            // Preparing for image creation
             texture = new Texture2D((int)dimensions.x, (int)dimensions.y);
-            //texture.GetComponent<Renderer>().material.mainTexture = texture;
 
             for (int i = 0; i < texture.height; i++)
             {
@@ -136,15 +120,14 @@ namespace ErrorCorrection
                     texture.SetPixel(j, i, color);
                 }
             }
-
-            Debug.Log("TUNAK");
         }
 
-        #endregion
-
+        /// <summary>
+        /// Handles stopping data collection
+        /// </summary>
         public void StopDataCollection()
         {
-            // adding cluster center
+            // Adds cluster center to all the frames where the position was clustered into current cluster center
             Vector3 center = finalRadiusClustering.GetClusteredCenter();
             for (int i = data.Count - 2; i > 0; --i)
             {
@@ -156,23 +139,9 @@ namespace ErrorCorrection
                 }
             }
 
-            Debug.Log("ukladam");
-            //CSVManager manager = new CSVManager();
-            //manager.Save(data);
-
-            // LOG DATA
             Vector3 currentHandPosition = center;
             currentHandPosition.y = 0;
             correctedDistance += Vector3.Distance(previousHandPosition, currentHandPosition);
-            Debug.Log("CORRECTED DISTANCE: " + correctedDistance);
-
-            // FINISH
-            //float x = Mathf.Abs(currentHandPosition.x - sceneControl.workspace.transform.position.x + dimensions.x / 2);
-            //float y = Mathf.Abs(currentHandPosition.z - sceneControl.workspace.transform.position.z + dimensions.y / 2);
-            //float x = Mathf.Abs(currentHandPosition.x + dimensions.x / 2);
-            //float y = Mathf.Abs(currentHandPosition.z + dimensions.y / 2);
-            //float x = Mathf.Abs(currentHandPosition.x - dimensions.x / 2);
-            //float y = Mathf.Abs(currentHandPosition.z + dimensions.y / 2);
 
             float x = Mathf.Abs(center.x - sceneControl.tableTop.transform.position.x + dimensions.x / 2000f);
             float y = Mathf.Abs(center.z - sceneControl.tableTop.transform.position.z + dimensions.y / 2000f);
@@ -180,12 +149,8 @@ namespace ErrorCorrection
             yImage.Add((int)(y * 1000));
 
             // Finishing time
-            data[1][7] = Dater.GetTime();
+            data[1][8] = Dater.GetTime();
             exerciseInfo.endingTime = Dater.GetTime();
-
-            // SAVING DATA
-            Debug.Log("KONCIM LOG DATA");
-            //manager.Save(data);
 
             // LOG IMAGE
             texture.SetPixel(xImage[xImage.Count - 1], yImage[yImage.Count - 1], Color.black);
@@ -193,19 +158,13 @@ namespace ErrorCorrection
             exerciseInfo.texture = texture;
             exerciseInfo.correctedDistance = correctedDistance;
 
-            // Encode texture into PNG
-            //byte[] bytes = texture.EncodeToPNG();
-            //Object.Destroy(texture);
-
             string fileName = exerciseInfo.patientID + "_" + Dater.GetDate() + "_" + exerciseInfo.startingTime;
             CSVManager.Save(data, fileName);
-            // saving
-            // FINISH
-            //System.IO.File.WriteAllBytes(Application.streamingAssetsPath + "/Patients Data/" + sceneControl.applicationControl.rehabilitationInfo.patientID + "_" + Dater.GetDate() + ".png", bytes);
-            //System.IO.File.WriteAllBytes(Application.dataPath + "/SavedScreen.png", bytes);
-            //System.IO.File.WriteAllBytes(Application.dataPath + "/Resources/SavedScreen.png", bytes);
         }
 
+        /// <summary>
+        /// Handles new hand position entering error correction
+        /// </summary>
         public float NewValue(Vector3 cameraPosition, Vector3 handPosition, string activeHand)
         {
             float distance = Vector3.Distance(cameraPosition, handPosition);
@@ -240,8 +199,6 @@ namespace ErrorCorrection
                     else
                     {
                         correctedDistance += Vector3.Distance(previousClusterCenter, finalPosition);
-                        previousDistance += Vector3.Distance(previousClusterCenter, finalPosition);
-
                         previousClusterCenter = finalPosition;
                     }
                 }
@@ -259,21 +216,20 @@ namespace ErrorCorrection
                 if (finalPosition != new Vector3())
                 {
                     correctedDistance += Vector3.Distance(previousClusterCenter, finalPosition);
-                    previousDistance += Vector3.Distance(previousClusterCenter, finalPosition);
                 }
             }
 
             previousActiveHand = activeHand;
 
-            string[] dataTemp2 = new string[7];
-            dataTemp2[0] = data.Count.ToString();
-            dataTemp2[1] = currentHandPos.x.ToString();
-            dataTemp2[2] = currentHandPos.y.ToString();
-            dataTemp2[3] = currentHandPos.z.ToString();
-            dataTemp2[4] = "";
-            dataTemp2[5] = notCorrectedDistance.ToString();
-            dataTemp2[6] = correctedDistance.ToString();
-            data.Add(dataTemp2);
+            string[] dataTemp = new string[7];
+            dataTemp[0] = data.Count.ToString();
+            dataTemp[1] = currentHandPos.x.ToString();
+            dataTemp[2] = currentHandPos.y.ToString();
+            dataTemp[3] = currentHandPos.z.ToString();
+            dataTemp[4] = "";
+            dataTemp[5] = notCorrectedDistance.ToString();
+            dataTemp[6] = correctedDistance.ToString();
+            data.Add(dataTemp);
 
             float x = Mathf.Abs(handPosition.x - sceneControl.tableTop.transform.position.x + dimensions.x / 2000f);
             float y = Mathf.Abs(handPosition.z - sceneControl.tableTop.transform.position.z + dimensions.y / 2000f);
@@ -282,10 +238,7 @@ namespace ErrorCorrection
             yImage.Add((int)(y * 1000));
             texture.SetPixel(xImage[xImage.Count - 1], yImage[yImage.Count - 1], Color.black);
 
-            // camera
             previousCameraPosition = cameraPosition;
-
-            // left hand
             previousHandPosition = handPosition;
 
             return correctedDistance;

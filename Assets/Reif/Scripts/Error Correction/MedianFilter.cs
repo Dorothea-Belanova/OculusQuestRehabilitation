@@ -19,10 +19,10 @@ namespace ErrorCorrection
         }
 
         /// <summary>
-        /// Filtrates list of positions into single position.
+        /// Filtrates list of positions into single position
         /// </summary>
         /// <returns>
-        /// Median (middle value) of last n positions.
+        /// Median (middle value) of last n positions
         /// </returns>
         /// <param name="positions">List of positions representing hand position over time</param>
         public override Vector3 Filtrate(List<Vector3> positions)
@@ -46,14 +46,12 @@ namespace ErrorCorrection
         }
 
         /// <summary>
-        /// Gets median value from an array.
+        /// Gets median value from an array
         /// </summary>
         /// <param name="array">Array of last n values of positions in one dimension (x, y or z)</param>
         private float MedianValue(float[] array)
         {
             int middle = (n - 1) / 2; // Finds middle index of an array
-            Debug.Log("middle: " + middle);
-            Debug.Log("n: " + n);
 
             if (sortPositions)
                 Array.Sort(array); // Sorts an array

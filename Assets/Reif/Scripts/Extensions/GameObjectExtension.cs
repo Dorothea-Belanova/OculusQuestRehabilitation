@@ -3,8 +3,7 @@
 public static class GameObjectExtension {
 
     /// <summary>
-    /// Toggles the visibility by enabling and disabling Renderer.
-    /// Triggers error when GameObject does not have Renderer.
+    /// Toggles the visibility by enabling and disabling Renderer, triggers error when GameObject does not have Renderer
     /// </summary>
     public static void ToggleVisibility(this GameObject go) {
         Renderer renderer = go.GetComponent<Renderer>();
@@ -15,5 +14,4 @@ public static class GameObjectExtension {
             Debug.LogError($"{go.name} does not contain Renderer Component.");
         }
     }
-
 }

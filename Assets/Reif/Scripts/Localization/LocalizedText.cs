@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using TMPro;
 
 public class LocalizedText: MonoBehaviour {
@@ -15,6 +12,9 @@ public class LocalizedText: MonoBehaviour {
 
     public void OnDestroy() => localizationLanguage.OnLanguageChanged -= OnLanguageChanged;
 
+    /// <summary>
+    /// Initializes the properties for localized text
+    /// </summary>
     private void Initialize()
     {
         localizationLanguage.OnLanguageChanged += OnLanguageChanged;
@@ -27,6 +27,9 @@ public class LocalizedText: MonoBehaviour {
 
     private void OnLanguageChanged() => SetText();
 
+    /// <summary>
+    /// Sets text with its localized value
+    /// </summary>
     private void SetText()
     {
         var value = localizationLanguage.GetLocalizedValue(key);
@@ -40,16 +43,21 @@ public class LocalizedText: MonoBehaviour {
             HandleBoldText();
     }
 
+    /// <summary>
+    /// Handles localization of bold text
+    /// </summary>
     private void HandleBoldText() {
-        if(IsBold() && localizationLanguage.language.code == "jp") {
+        // If is bold and currently used localization language is japanese, it un-bolds it
+        if(IsBold() && localizationLanguage.language.code == "jp")
             SetTextBold(false);
-        }
-
-        else if(!IsBold() && localizationLanguage.language.code != "jp") {
+        // If text is bold and currently used localization language is not japanese, it bolds it
+        else if (!IsBold() && localizationLanguage.language.code != "jp")
             SetTextBold(true);
-        }
     }
 
+    /// <summary>
+    /// Sets text bold
+    /// </summary>
     private void SetTextBold(bool value) {
         var fontStype = value ? FontStyles.Bold : FontStyles.Normal;
 
@@ -59,6 +67,9 @@ public class LocalizedText: MonoBehaviour {
             GetComponent<TextMeshProUGUI>().fontStyle = fontStype;
     }
 
+    /// <summary>
+    /// Returns true if text is bold
+    /// </summary>
     private bool IsBold() {
         if (GetComponent<TextMeshPro>())
             return GetComponent<TextMeshPro>().fontStyle == FontStyles.Bold;
@@ -68,6 +79,12 @@ public class LocalizedText: MonoBehaviour {
         return false;
     }
 
+    /// <summary>
+    /// Sets localization values for a localized text
+    /// </summary>
+    /// <remarks>
+    /// !!! Only used in Segmented control !!!
+    /// </remarks>
     public void SetLocalizationValues(string key, CurrentLocalizationLanguage localizationLanguage)
     {
         this.key = key;

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace ErrorCorrection
@@ -10,7 +9,7 @@ namespace ErrorCorrection
         private Vector3 previousPosition; // Used for calculation of distance between previous and current position
         private LowPassApproach lowPassApproach; // Influences recalculation of threshold in each frame
 
-        /// <param name="lowPassApproach">Influences recalculation of threshold in each frame.</param>
+        /// <param name="lowPassApproach">Influences recalculation of threshold in each frame</param>
         public LowPassFilter(LowPassApproach lowPassApproach)
         {
             this.lowPassApproach = lowPassApproach;
@@ -18,10 +17,10 @@ namespace ErrorCorrection
 
         /// <summary>
         /// Passes current position, if the distance between current position and previous
-        /// position is smaller than threshold. If it is higher, it returns altered current position.
+        /// position is smaller than threshold, if it is higher, it returns altered current position.
         /// </summary>
         /// <returns>
-        /// Filtered current position.
+        /// Filtered current position
         /// </returns>
         /// <param name="positions">List of positions representing hand position over time</param>
         public override Vector3 Filtrate(List<Vector3> positions)
@@ -76,13 +75,13 @@ namespace ErrorCorrection
 
         /// <summary>
         /// Passes current position, if the distance between current position and previous
-        /// position is smaller than threshold. If it is higher, it returns altered current position.
+        /// position is smaller than threshold, if it is higher, it returns altered current position.
         /// </summary>
         /// <remarks>
         /// !!! Only used in case of hand change !!!
         /// </remarks>
         /// <returns>
-        /// Filtered current position.
+        /// Filtered current position
         /// </returns>
         /// <param name="positions">List of positions representing hand position over time</param>
         /// <param name="previousPosition">Sets previous position manually</param>
@@ -95,7 +94,7 @@ namespace ErrorCorrection
 
         /// <summary>
         /// Recalculates threshold to adjust it to decreasing or increasing distances in previous
-        /// and current positions.
+        /// and current positions
         /// </summary>
         /// <param name="distance">Distance between previous and current position in single axis</param>
         /// <param name="isIncreasing">Marks if value in a single axis of current position is higher than in previous position</param>

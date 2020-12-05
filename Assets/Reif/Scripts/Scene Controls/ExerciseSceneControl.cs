@@ -3,22 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using ErrorCorrection;
 using UnityEngine.SceneManagement;
 
 public class ExerciseSceneControl : MonoBehaviour {
 
-    // Static Variables
-    private static Color LEFT_HAND_COLOR = new Color(0.0f, 0.2f, 0.2f);
-    private static Color RIGHT_HAND_COLOR = new Color(1.0f, 0.5f, 0.0f);
-    private static float RADIUS = 0.03f; // nastavene v unity editore
-    private static float CORNER_OFFSET = 0.05f;
-
-    [SerializeField] GameObject leftHand;
+    [SerializeField] private GameObject leftHand;
     [SerializeField] public GameObject workspace;
-    List<Vector3> leftPositions;
-    List<Vector3> rightPositions;
     [SerializeField] GameObject initialPositionSphere;
     [SerializeField] TextMeshPro scoreValue;
     [SerializeField] TextMeshPro distanceValue;
@@ -31,6 +22,8 @@ public class ExerciseSceneControl : MonoBehaviour {
     [HideInInspector] public InitialPositionSphere leftHandInteractiveSphere;
     [HideInInspector] public InitialPositionSphere rightHandInteractiveSphere;
 
+    private List<Vector3> leftPositions;
+    private List<Vector3> rightPositions;
     private Vector3 leftHandInitialPos;
     private Vector3 rightHandInitialPos;
     GameObject leftPositionSphere;
@@ -248,12 +241,12 @@ public class ExerciseSceneControl : MonoBehaviour {
 
         if (isLeftActive)
         {
-            cylinderInstance.GetComponent<Renderer>().material.color = LEFT_HAND_COLOR;
+            cylinderInstance.GetComponent<Renderer>().material.color = Constants.LEFT_HAND_COLOR;
             cylinderInstance.GetComponent<InteractiveCylinder>().isLeft = true;
         }
         else
         {
-            cylinderInstance.GetComponent<Renderer>().material.color = RIGHT_HAND_COLOR;
+            cylinderInstance.GetComponent<Renderer>().material.color = Constants.RIGHT_HAND_COLOR;
             cylinderInstance.GetComponent<InteractiveCylinder>().isLeft = false;
         }
     }
@@ -407,7 +400,7 @@ public class ExerciseSceneControl : MonoBehaviour {
             if (leftPositionSphere == null)
             {
                 leftPositionSphere = GameObject.Instantiate(initialPositionSphere, new Vector3(leftHandInitialPos.x, y - 0.02f, leftHandInitialPos.z), Quaternion.identity);
-                leftPositionSphere.GetComponent<Renderer>().material.color = LEFT_HAND_COLOR;
+                leftPositionSphere.GetComponent<Renderer>().material.color = Constants.LEFT_HAND_COLOR;
                 leftHandInteractiveSphere = leftPositionSphere.GetComponent<InitialPositionSphere>();
                 leftHandInteractiveSphere.isLeft = true;
             }
@@ -419,7 +412,7 @@ public class ExerciseSceneControl : MonoBehaviour {
             if (rightPositionSphere == null)
             {
                 rightPositionSphere = GameObject.Instantiate(initialPositionSphere, new Vector3(rightHandInitialPos.x, y - 0.02f, rightHandInitialPos.z), Quaternion.identity);
-                rightPositionSphere.GetComponent<Renderer>().material.color = RIGHT_HAND_COLOR;
+                rightPositionSphere.GetComponent<Renderer>().material.color = Constants.RIGHT_HAND_COLOR;
                 rightHandInteractiveSphere = rightPositionSphere.GetComponent<InitialPositionSphere>();
                 rightHandInteractiveSphere.isLeft = false;
             }
@@ -511,7 +504,7 @@ public class ExerciseSceneControl : MonoBehaviour {
 
     private void ChangeTableSize()
     {
-        float tableMax = exerciseInfo.maxHandDistance + CORNER_OFFSET * 2f;
+        float tableMax = exerciseInfo.maxHandDistance + Constants.CORNER_OFFSET * 2f;
         float difference = ((tableMax - workspace.transform.GetChild(0).transform.localScale.z) / 2);
         workspace.transform.GetChild(0).transform.localScale = new Vector3(workspace.transform.GetChild(0).transform.localScale.x, workspace.transform.GetChild(0).transform.localScale.y, tableMax);
         workspace.transform.GetChild(0).transform.Translate(0, 0, difference);
@@ -521,9 +514,9 @@ public class ExerciseSceneControl : MonoBehaviour {
 
     private void AdjustWorkspace()
     {
-        float z = ((leftHandInitialPos.z + rightHandInitialPos.z) / 2f) + 0.15f - CORNER_OFFSET;
+        float z = ((leftHandInitialPos.z + rightHandInitialPos.z) / 2f) + 0.15f - Constants.CORNER_OFFSET;
         float x = (leftHandInitialPos.x + rightHandInitialPos.x) / 2f;
-        float y = (leftHandInitialPos.y + rightHandInitialPos.y) / 2f - CORNER_OFFSET / 2f;
+        float y = (leftHandInitialPos.y + rightHandInitialPos.y) / 2f - Constants.CORNER_OFFSET / 2f;
 
         //distanceValue.text = x.ToString() + "/" + y.ToString() + "/" + z.ToString();
 
@@ -539,10 +532,7 @@ public class ExerciseSceneControl : MonoBehaviour {
         }
     }
 
-    public void CalibrationPressed()
-    {
-        StartCoroutine(InitialPositionCalibration());
-    }
+    public void CalibrationPressed() => StartCoroutine(InitialPositionCalibration());
 
     public void VerticalGameTogglePressed()
     {

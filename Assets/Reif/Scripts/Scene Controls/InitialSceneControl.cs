@@ -25,7 +25,6 @@ public class InitialSceneControl : MonoBehaviour {
     [SerializeField] private GameObject keyboardCanvas;
     [SerializeField] private ExerciseInfo exerciseInfo;
 
-    private bool isKeyboardOn = false;
     private SelectedHand selectedHand = SelectedHand.None;
 
     /// <remarks>
@@ -108,7 +107,6 @@ public class InitialSceneControl : MonoBehaviour {
     {
         patientIDInputField.text = exerciseInfo.patientID;
         patientIDInputField.interactable = false;
-        isKeyboardOn = true;
         keyboardCanvas.SetActive(true);
     }
 
@@ -121,7 +119,6 @@ public class InitialSceneControl : MonoBehaviour {
         patientIDInputField.text = patientID;
         exerciseInfo.patientID = patientID;
         keyboardCanvas.SetActive(false);
-        isKeyboardOn = false;
         HandleContinueButtonInteractivity();
     }
 

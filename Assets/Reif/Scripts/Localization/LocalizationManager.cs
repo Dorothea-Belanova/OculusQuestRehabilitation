@@ -24,7 +24,7 @@ public class LocalizationManager: MonoBehaviour
     }
 
     /// <summary>
-    /// When triggered by Change language button, it loads next file in a localization files list.
+    /// When triggered by Change language button, it loads next file in a localization files list
     /// </summary>
     public void ChangeLocalizationLanguage()
     {
@@ -33,7 +33,7 @@ public class LocalizationManager: MonoBehaviour
     }
 
     /// <summary>
-    /// Loads localization data from JSON file.
+    /// Loads localization data from JSON file
     /// </summary>
     /// <param name="fileName">Language localization file name</param>
     public void LoadLocalizationData(string fileName) {

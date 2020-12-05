@@ -1,52 +1,57 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using TMPro;
 
 public class Keyboard: MonoBehaviour {
 
-    public event Action OnCapslockToggle = delegate { };
-
+    public event Action OnCapslockToggle;
 
     [SerializeField] public TMP_InputField inputField;
     public bool isCapsOn = false;
     InitialSceneControl sceneControl;
 
     public void Awake() {
-        Debug.Log("tu som");
         inputField.text = "";
 
         sceneControl = GameObject.FindGameObjectWithTag("SceneControl").GetComponent<InitialSceneControl>();
     }
 
+    /// <summary>
+    /// Handles click on Letter keytype action
+    /// </summary>
     public void AddCharacter(string character) {
-        Debug.Log("called: " + character);
         inputField.text = inputField.text + character;
     }
 
+    /// <summary>
+    /// Handles backspace click action
+    /// </summary>
     public void BackspacePressed() {
-        if(inputField.text.Length > 0) {
+        if(inputField.text.Length > 0)
             inputField.text = inputField.text.Remove(inputField.text.Length - 1);
-        }
     }
 
+    /// <summary>
+    /// Handles capslock clicked action
+    /// </summary>
     public void CapslockToggle() {
         isCapsOn = !isCapsOn;
         OnCapslockToggle();
     }
 
+    /// <summary>
+    /// Handles enter clicked action
+    /// </summary>
     public void EnterPressed() {
-        Debug.Log("NAME: " + inputField.text);
-
         // Removes whitespace from front and end of Patient ID
         inputField.text = inputField.text.Trim();
 
         sceneControl.OnKeyboardEnterClicked(inputField.text);
     }
 
+    /// <summary>
+    /// Clears keyboard's input field
+    /// </summary>
     public void Clear() {
         inputField.text = "";
     }

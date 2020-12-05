@@ -5,16 +5,13 @@ namespace ErrorCorrection
 {
     public class RadiusClustering
     {
-        private const float radiusMaxLimit = 0.025f; // 2.5cm
-        private const float radiusMinLimit = 0.005f; // 0.5cm
-
         private float radius = 0f;
         private KalmanFilter kalmanFilter;
         private Vector3 clusterCenter;
         private float initialCameraDistance;
 
-        /// <param name="leftHandInitialPositions">List of left hand positions during calibration.</param>
-        /// <param name="righttHandInitialPositions">List of right hand positions during calibration.</param>
+        /// <param name="leftHandInitialPositions">List of left hand positions during calibration</param>
+        /// <param name="righttHandInitialPositions">List of right hand positions during calibration</param>
         public RadiusClustering(List<Vector3> leftHandInitialPositions, List<Vector3> rightHandInitialPositions)
         {
             // Calculates radius depending on all the hand positions during calibration
@@ -22,16 +19,16 @@ namespace ErrorCorrection
             CalculateRadius(rightHandInitialPositions);
 
             // If radius is smaller or higher than limits, set closer limit
-            if (radius < radiusMinLimit || radius > radiusMaxLimit)
+            if (radius < Constants.RADIUS_MIN_LIMIT || radius > Constants.RADIUS_MAX_LIMIT)
             {
-                radius = radius < radiusMinLimit ? radiusMinLimit : radiusMaxLimit;
+                radius = radius < Constants.RADIUS_MIN_LIMIT ? Constants.RADIUS_MIN_LIMIT : Constants.RADIUS_MAX_LIMIT;
             }
         }
 
         /// <summary>
-        /// Calculates radius for initial hand positions.
+        /// Calculates radius for initial hand positions
         /// </summary>
-        /// <param name="positions">List of positions representing hand position during calibration.</param>
+        /// <param name="positions">List of positions representing hand position during calibration</param>
         private void CalculateRadius(List<Vector3> positions)
         {
             Vector3 center = positions.GetAverage();
@@ -49,14 +46,14 @@ namespace ErrorCorrection
         }
 
         /// <summary>
-        /// Updates the measurement for cluster center depending on current position.
+        /// Updates the measurement for cluster center depending on current position
         /// </summary>
         /// <returns>
-        /// If current position belongs to previous cluster center, returns zero vector.
-        /// If current position belongs to new cluster, returns previous cluster center.
+        /// If current position belongs to previous cluster center, returns zero vector
+        /// If current position belongs to new cluster, returns previous cluster center
         /// </returns>
-        /// <param name="currentPosition">Current hand position obtained from LMC.</param>
-        /// <param name="cameraDistance">Distance between main camera and current hand position.</param>
+        /// <param name="currentPosition">Current hand position obtained from LMC</param>
+        /// <param name="cameraDistance">Distance between main camera and current hand position</param>
         public Vector3 UpdateMeasurement(Vector3 currentPosition, float cameraDistance)
         {
             // Initialization of Kalman Filter and calculation of initial camera distance 
@@ -96,7 +93,7 @@ namespace ErrorCorrection
         }
 
         /// <summary>
-        /// Returns cluster center of the current cluster.
+        /// Returns cluster center of the current cluster
         /// </summary>
         public Vector3 GetClusteredCenter()
         {

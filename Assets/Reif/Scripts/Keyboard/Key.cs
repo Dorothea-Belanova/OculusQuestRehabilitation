@@ -12,45 +12,24 @@ public class Key : MonoBehaviour {
     public void Awake() {
         keyboard = GameObject.FindGameObjectWithTag("Keyboard").GetComponent<Keyboard>();
 
-        /*if (this.GetComponentsInChildren<TextMeshProUGUI>().Length > 0) {
-            this.GetComponentInChildren<TextMeshProUGUI>().text = this.name.ToLower();
-
-            if(keyType == KeyType.Letter)
-                keyboard.OnCapslockToggle += ChangeLetter;
-        }
-        else
-        {
-            this.GetComponentInChildren<TextMeshProUGUI>().text = this.name.ToLower();
-        }*/
-
         if (keyType == KeyType.Letter)
-            keyboard.OnCapslockToggle += ChangeLetter;
+            keyboard.OnCapslockToggle += ToggleCapslock;
 
         GetComponent<Button>().onClick.AddListener(delegate {
             Clicked();
         });
     }
 
-    /*private void OnDestroy()
-    {
-        if (keyType == KeyType.Letter)
-            keyboard.OnCapslockToggle -= ChangeLetter;
-
-        GetComponent<Button>().onClick.RemoveListener(delegate {
-            Clicked();
-        });
-    }*/
-
+    /// <summary>
+    /// Handles key being clicked
+    /// </summary>
     public void Clicked() {
-        Debug.Log("KEYCODE: " + keyType);
-
         switch (keyType) {
             case KeyType.Space:
                 keyboard.AddCharacter(" ");
                 break;
             case KeyType.Letter:
                 keyboard.AddCharacter(this.GetComponentInChildren<TextMeshProUGUI>().text);
-                Debug.Log("LETTER: " + this.GetComponentInChildren<TextMeshProUGUI>().text);
                 break;
             case KeyType.Uppercase:
                 keyboard.CapslockToggle();
@@ -67,7 +46,10 @@ public class Key : MonoBehaviour {
         }
     }
 
-    public void ChangeLetter() {
+    /// <summary>
+    /// Toggles capslock for Letter keytype keys
+    /// </summary>
+    public void ToggleCapslock() {
         if(keyboard.isCapsOn)
             this.GetComponentInChildren<TextMeshProUGUI>().text = this.GetComponentInChildren<TextMeshProUGUI>().text.ToUpper();
         else

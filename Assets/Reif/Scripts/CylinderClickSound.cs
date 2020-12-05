@@ -1,10 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CylinderClickSound : MonoBehaviour
 {
-    [SerializeField] AudioClip clickClip;
+    [SerializeField] private AudioClip clickClip;
 
     void Awake()
     {
@@ -17,16 +16,12 @@ public class CylinderClickSound : MonoBehaviour
         StartCoroutine(DestroyAfterSoundOff());
     }
 
+    /// <summary>
+    /// Destroys itself after the length of click sound passed
+    /// </summary>
     IEnumerator DestroyAfterSoundOff()
     {
-        float time = 0;
-
-        do
-        {
-            yield return null;
-            time += Time.deltaTime;
-        } while (time < clickClip.length);
-
+        yield return new WaitForSeconds(clickClip.length);
         Destroy(gameObject);
     }
 }

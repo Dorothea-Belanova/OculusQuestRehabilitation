@@ -11,4 +11,12 @@ public static class Vector3Extension {
 
         return false;
     }
+
+    /// <summary>
+    /// Evaluates whether Vector3 is negative infinity
+    /// </summary>
+    public static bool IsNegativeInfinity(this Vector3 vector)
+    {
+        return float.IsNegativeInfinity(vector.x) && float.IsNegativeInfinity(vector.y) && float.IsNegativeInfinity(vector.z);
+    }
 }

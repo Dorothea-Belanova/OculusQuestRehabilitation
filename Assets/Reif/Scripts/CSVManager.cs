@@ -6,7 +6,7 @@ using System.IO;
 public class CSVManager
 {
     /// <summary>
-    /// Loads patients exercise data from a CSV file.
+    /// Loads patients exercise data from a CSV file
     /// </summary>
     /// <param name="fileName">Exercise file name</param>
     public static List<string[]> Load(string fileName)
@@ -34,7 +34,7 @@ public class CSVManager
     }
 
     /// <summary>
-    /// Saves patients exercise data as a CSV file.
+    /// Saves patients exercise data as a CSV file
     /// </summary>
     /// <param name="data">Patients exercise data</param>
     /// <param name="fileName">Exercise file name</param>

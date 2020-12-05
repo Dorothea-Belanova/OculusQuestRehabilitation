@@ -12,7 +12,7 @@ public class CurrentLocalizationLanguage : ScriptableObject
     private Dictionary<string, string> localizationPairs;
 
     /// <summary>
-    /// Stores newly loaded localized data.
+    /// Stores newly loaded localized data
     /// </summary>
     /// <param name="localizationData">Localization data loaded from a localization file</param>
     public void ChangeLocalizationLanguage(LocalizationData localizationData)

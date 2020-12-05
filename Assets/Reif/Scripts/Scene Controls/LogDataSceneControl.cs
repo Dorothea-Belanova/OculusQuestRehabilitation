@@ -14,6 +14,9 @@ public class LogDataSceneControl : MonoBehaviour
 
     void Start() => SetUI();
 
+    /// <summary>
+    /// Sets UI elements with values from exercise info
+    /// </summary>
     private void SetUI()
     {
         patientIDText.text = exerciseInfo.patientID;
@@ -23,5 +26,8 @@ public class LogDataSceneControl : MonoBehaviour
         image.texture = exerciseInfo.texture;
     }
 
+    /// <summary>
+    /// Loads Initial scene
+    /// </summary>
     public void BackButtonPressed() => SceneManager.LoadScene(0);
 }

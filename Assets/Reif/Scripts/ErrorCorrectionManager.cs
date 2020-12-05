@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using OculusSampleFramework;
-using System;
 
 namespace ErrorCorrection
 {
@@ -237,14 +234,11 @@ namespace ErrorCorrection
                 {
                     if (handChanged)
                     {
-                        Debug.LogError("RIESIM ZMENENU RUKU");
                         previousClusterCenter = finalPosition;
                         handChanged = false;
                     }
                     else
                     {
-                        Debug.Log("NEZMENENA RUKA");
-                        Debug.Log("vzdialenost: " + Vector3.Distance(previousClusterCenter, finalPosition));
                         correctedDistance += Vector3.Distance(previousClusterCenter, finalPosition);
                         previousDistance += Vector3.Distance(previousClusterCenter, finalPosition);
 
@@ -255,11 +249,8 @@ namespace ErrorCorrection
             // HAND CHANGED
             else
             {
-                Debug.LogError("HAND CHANGED");
                 positions.Clear();
                 positions.Add(currentHandPos);
-
-                Debug.Log("pocet pozicii: " + positions.Count);
 
                 finalPosition = finalRadiusClustering.UpdateMeasurement(currentHandPos, distance);
 
@@ -267,7 +258,6 @@ namespace ErrorCorrection
 
                 if (finalPosition != new Vector3())
                 {
-                    Debug.Log("vzdialenost predosleho rozdielu: " + Vector3.Distance(previousClusterCenter, finalPosition));
                     correctedDistance += Vector3.Distance(previousClusterCenter, finalPosition);
                     previousDistance += Vector3.Distance(previousClusterCenter, finalPosition);
                 }
@@ -287,13 +277,6 @@ namespace ErrorCorrection
 
             float x = Mathf.Abs(handPosition.x - sceneControl.tableTop.transform.position.x + dimensions.x / 2000f);
             float y = Mathf.Abs(handPosition.z - sceneControl.tableTop.transform.position.z + dimensions.y / 2000f);
-
-            /*Debug.Log("position x:" + handPosition.x);
-            Debug.Log("position y:" + handPosition.z);
-            Debug.Log("scene position x:" + sceneControl.tableTop.transform.position.x);
-            Debug.Log("scene position y:" + sceneControl.tableTop.transform.position.z);
-            Debug.Log("dimension x:" + dimensions.x / 200f);
-            Debug.Log("dimension y:" + dimensions.y / 200f);*/
 
             xImage.Add((int)(x * 1000));
             yImage.Add((int)(y * 1000));

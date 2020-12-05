@@ -4,29 +4,30 @@ public static class PointRandomizer {
 
     private static float GetMinAngleForDistance(float distance, Vector3 initialPosition, float a) {
         float b = Mathf.Sqrt(distance * distance - a * a);
-        if(float.IsNaN(b)) {
-            //Debug.Log("CHYBA");
+        if(float.IsNaN(b))
             return 20f;
-        }
+
         float radians = Mathf.Asin(b / distance);
         float degrees = (radians * 180f) / Mathf.PI;
-        //Debug.Log("degrees: " + degrees);
+
         return degrees;
     }
 
     private static float GetMaxAngleForDistance(float distance, Vector3 initialPosition, float a) {
         float b = Mathf.Sqrt(distance * distance - a * a);
-        if(float.IsNaN(b)) {
-            //Debug.Log("CHYBA");
+        if(float.IsNaN(b))
             return 160f;
-        }
+
         float radians = Mathf.Asin(b / distance);
         float degrees = (radians * 180f) / Mathf.PI;
         degrees = 180f - degrees;
-        //Debug.Log("degrees: " + degrees);
+
         return degrees;
     }
 
+    /// <summary>
+    /// Generates random point position with corresponding distance from the initial position and a position within a table
+    /// </summary>
     public static Vector3 GenerateRandomPointPosition(float distance, Vector3 initialPosition, GameObject table) {
         // Calculation of corners
         Vector3 center = new Vector3(table.transform.position.x, initialPosition.y, initialPosition.z);
@@ -49,6 +50,9 @@ public static class PointRandomizer {
         return point;
     }
 
+    /// <summary>
+    /// Generates and returns distances of points
+    /// </summary>
     public static float[] GenerateDistances(float min, float max, float length, int points) {
         float sum = 0f;
         float cMin;
@@ -87,6 +91,9 @@ public static class PointRandomizer {
         }
     }
 
+    /// <summary>
+    /// Recalculates min and max limits for a calculation of next point distance
+    /// </summary>
     private static (float cMin, float cMax) RecalculateLimits(float min, float max, float length, float sum, float points, float i) {
         var avg = (length - sum) / (points - i);
         var diff = Mathf.Min(Mathf.Abs(max - avg), Mathf.Abs(avg - min));

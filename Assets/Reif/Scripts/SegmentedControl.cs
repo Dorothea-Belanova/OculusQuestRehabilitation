@@ -1,31 +1,31 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-//[AddComponentMenu("UI/Segmented Control", 32)]
 public class SegmentedControl: MonoBehaviour {
 
     [SerializeField] private CurrentLocalizationLanguage localizationLanguage;
-    [SerializeField] public int selected = -1;
-    [SerializeField] public Color normalColor = Color.white;
-    [SerializeField] public Color selectedColor = Color.grey;
-    [SerializeField] public Color normalTextColor = Color.black;
-    [SerializeField] public Color selectedTextColor = Color.green;
-    [SerializeField] public Sprite sprite;
-    [SerializeField] public TMP_FontAsset fontAsset;
-    [SerializeField] public int fontSize = 30;
-    [SerializeField] public TextAlignmentOptions alignment = TextAlignmentOptions.Center;
-    [SerializeField] public string[] segments = new string[] { "Segment 1", "Segment 2", "Segment 3" };
-    [SerializeField] public bool supportsLocalization = false;
-    [SerializeField] public string[] segmentsTranslationKeywords = new string[] { "Keyword 1", "Keyword 2", "Keyword 3" };
+    [SerializeField] private int selected = -1;
+    [SerializeField] private Color normalColor = Color.white;
+    [SerializeField] private Color selectedColor = Color.grey;
+    [SerializeField] private Color normalTextColor = Color.black;
+    [SerializeField] private Color selectedTextColor = Color.green;
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private TMP_FontAsset fontAsset;
+    [SerializeField] private int fontSize = 30;
+    [SerializeField] private TextAlignmentOptions alignment = TextAlignmentOptions.Center;
+    [SerializeField] private string[] segments = new string[] { "Segment 1", "Segment 2", "Segment 3" };
+    [SerializeField] private bool supportsLocalization = false;
+    [SerializeField] private string[] segmentsTranslationKeywords = new string[] { "Keyword 1", "Keyword 2", "Keyword 3" };
 
     public event Action<SelectedHand> OnValueChanged;
 
     private LocalizedText[] localizedTexts;
 
+    /// <summary>
+    /// Handles creation of segmented control
+    /// </summary>
     public void Awake() {
         float segmentWidth = 1f / segments.Length;
         localizedTexts = new LocalizedText[segments.Length];
@@ -80,6 +80,9 @@ public class SegmentedControl: MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Handles removal of listeners if segmented control supports localization
+    /// </summary>
     private void OnDestroy()
     {
         if (supportsLocalization)
@@ -89,6 +92,9 @@ public class SegmentedControl: MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Handles on press action of one of the segments
+    /// </summary>
     private void OnPressed(GameObject gameObject) {
         int index = gameObject.GetComponent<RectTransform>().GetSiblingIndex();
 
@@ -100,11 +106,17 @@ public class SegmentedControl: MonoBehaviour {
         OnValueChanged?.Invoke((SelectedHand)index);
     }
 
+    /// <summary>
+    /// Changes colors of tex and button for the corresponding segment
+    /// </summary>
     private void ChangeColors(int index, Color buttonColor, Color textColor) {
         this.transform.GetChild(index).GetComponent<Image>().color = buttonColor;
         this.transform.GetChild(index).GetChild(0).GetComponent<TextMeshProUGUI>().color = textColor;
     }
 
+    /// <summary>
+    /// Returns index of selected segment
+    /// </summary>
     public int GetSelectedIndex() {
         return selected;
     }

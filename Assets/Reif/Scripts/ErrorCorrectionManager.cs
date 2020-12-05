@@ -226,7 +226,7 @@ namespace ErrorCorrection
             dataTemp[1] = currentHandPos.x.ToString();
             dataTemp[2] = currentHandPos.y.ToString();
             dataTemp[3] = currentHandPos.z.ToString();
-            dataTemp[4] = "";
+            dataTemp[4] = activeHand;
             dataTemp[5] = notCorrectedDistance.ToString();
             dataTemp[6] = correctedDistance.ToString();
             data.Add(dataTemp);

@@ -6,7 +6,7 @@ using System.IO;
 #if UNITY_EDITOR
 public class LocalizationEditor: EditorWindow {
 
-    public static int MARGIN = 18;
+    private static int MARGIN = 18;
 
     private string[] localizationFiles;
     private List<LocalizationData> localizationDatas;
@@ -169,7 +169,7 @@ public class LocalizationEditor: EditorWindow {
     /// <summary>
     /// Handles creation of a new item
     /// </summary>
-    void AddNewItem() {
+    private void AddNewItem() {
         for(int i = 0; i < localizationDatas.Count; ++i) {
             localizationDatas[i].items.Add(new LocalizationItem());
             localizationDatas[i].items[localizationDatas[i].items.Count - 1].key = newItemKey;
@@ -182,7 +182,7 @@ public class LocalizationEditor: EditorWindow {
     /// <summary>
     /// Handles creation of a new localization language
     /// </summary>
-    void AddNewLanguage(LocalizationData localizationData) {
+    private void AddNewLanguage(LocalizationData localizationData) {
         localizationData.items = new List<LocalizationItem>();
 
         if(localizationDatas.Count != 0) {
